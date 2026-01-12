@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "name": "ping",
+    "category": "connectivity",
+    "description": "Tests network connectivity to a host",
+    "windows": "ping google.com",
+    "mac": "ping google.com",
+    "linux": "ping google.com",
+    "explanation": "Sends ICMP echo requests to test if a host is reachable and measure round-trip time",
+    "useCase": "First step in troubleshooting connectivity issues"
+  },
+  {
+    "id": 2,
+    "name": "traceroute",
+    "category": "connectivity",
+    "description": "Shows the path packets take to reach a destination",
+    "windows": "tracert google.com",
+    "mac": "traceroute google.com",
+    "linux": "traceroute google.com",
+    "explanation": "Displays each hop (router) between your computer and the destination",
+    "useCase": "Identify where network latency or packet loss occurs"
+  },
+  {
+    "id": 3,
+    "name": "ipconfig/ifconfig",
+    "category": "configuration",
+    "description": "Displays network configuration",
+    "windows": "ipconfig /all",
+    "mac": "ifconfig",
+    "linux": "ifconfig",
+    "explanation": "Shows IP address, subnet mask, default gateway, and DNS servers",
+    "useCase": "Check your network adapter settings"
+  },
+  {
+    "id": 4,
+    "name": "nslookup",
+    "category": "dns",
+    "description": "Query DNS servers for domain information",
+    "windows": "nslookup google.com",
+    "mac": "nslookup google.com",
+    "linux": "nslookup google.com",
+    "explanation": "Queries DNS servers to resolve domain names to IP addresses",
+    "useCase": "Troubleshoot DNS resolution issues"
+  },
+  {
+    "id": 5,
+    "name": "netstat",
+    "category": "monitoring",
+    "description": "Display network connections and statistics",
+    "windows": "netstat -ano",
+    "mac": "netstat -an",
+    "linux": "netstat -tulpn",
+    "explanation": "Shows active connections, listening ports, and network statistics",
+    "useCase": "Check what ports are open"
+  },
+  {
+    "id": 6,
+    "name": "arp",
+    "category": "configuration",
+    "description": "Display and modify ARP cache",
+    "windows": "arp -a",
+    "mac": "arp -a",
+    "linux": "arp -a",
+    "explanation": "Shows the ARP table mapping IP addresses to MAC addresses on local network",
+    "useCase": "Check MAC address mappings and diagnose Layer 2 issues"
+  },
+  {
+    "id": 7,
+    "name": "route",
+    "category": "configuration",
+    "description": "Display or modify routing table",
+    "windows": "route print",
+    "mac": "netstat -r",
+    "linux": "route -n",
+    "explanation": "Shows the routing table used to determine where packets should be sent",
+    "useCase": "Verify routing paths and troubleshoot routing issues"
+  },
+  {
+    "id": 8,
+    "name": "dig",
+    "category": "dns",
+    "description": "DNS lookup utility (detailed)",
+    "windows": "nslookup -type=any google.com",
+    "mac": "dig google.com",
+    "linux": "dig google.com",
+    "explanation": "Provides detailed DNS query information including TTL, nameservers, and record types",
+    "useCase": "Advanced DNS troubleshooting and checking DNS propagation"
+  },
+  {
+    "id": 9,
+    "name": "hostname",
+    "category": "configuration",
+    "description": "Display system hostname",
+    "windows": "hostname",
+    "mac": "hostname",
+    "linux": "hostname",
+    "explanation": "Shows the name assigned to the computer on the network",
+    "useCase": "Verify device identification on network"
+  },
+  {
+    "id": 10,
+    "name": "curl",
+    "category": "connectivity",
+    "description": "Test HTTP/HTTPS connectivity",
+    "windows": "curl https://google.com",
+    "mac": "curl https://google.com",
+    "linux": "curl https://google.com",
+    "explanation": "Makes HTTP requests to test web connectivity and retrieve headers/content",
+    "useCase": "Test if websites are accessible and check HTTP response codes"
+  },
+  {
+    "id": 11,
+    "name": "telnet",
+    "category": "connectivity",
+    "description": "Test connectivity to specific ports",
+    "windows": "telnet google.com 80",
+    "mac": "telnet google.com 80",
+    "linux": "telnet google.com 80",
+    "explanation": "Opens a connection to a specific port to test if it's open and accessible",
+    "useCase": "Test if specific services (HTTP, SMTP, etc.) are reachable"
+  },
+  {
+    "id": 12,
+    "name": "pathping",
+    "category": "connectivity",
+    "description": "Combines ping and traceroute with statistics",
+    "windows": "pathping google.com",
+    "mac": "mtr google.com",
+    "linux": "mtr google.com",
+    "explanation": "Shows route and measures packet loss at each hop over time",
+    "useCase": "Identify which hop is causing packet loss or latency"
+  },
+  {
+    "id": 13,
+    "name": "ipconfig release/renew",
+    "category": "configuration",
+    "description": "Release and renew DHCP lease",
+    "windows": "ipconfig /release && ipconfig /renew",
+    "mac": "sudo ipconfig set en0 DHCP",
+    "linux": "sudo dhclient -r && sudo dhclient",
+    "explanation": "Releases current IP address and requests a new one from DHCP server",
+    "useCase": "Fix IP configuration issues or get a new IP address"
+  },
+  {
+    "id": 14,
+    "name": "flush DNS cache",
+    "category": "dns",
+    "description": "Clear DNS resolver cache",
+    "windows": "ipconfig /flushdns",
+    "mac": "sudo dscacheutil -flushcache",
+    "linux": "sudo systemd-resolve --flush-caches",
+    "explanation": "Clears cached DNS entries to force fresh DNS lookups",
+    "useCase": "Fix DNS issues after DNS records have changed"
+  },
+  {
+    "id": 15,
+    "name": "ss (socket statistics)",
+    "category": "monitoring",
+    "description": "Display socket statistics (modern netstat)",
+    "windows": "netstat -ano",
+    "mac": "netstat -an",
+    "linux": "ss -tuln",
+    "explanation": "Shows detailed information about network sockets and connections",
+    "useCase": "Monitor active connections and listening services"
+  },
+    {
+        "id": 16,
+        "name": "iwconfig",
+        "category": "wireless",
+        "description": "Display wireless network interface configuration",
+        "windows": "netsh wlan show interfaces",
+        "mac": "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I",
+        "linux": "iwconfig",
+        "explanation": "Shows wireless connection details including SSID, signal strength, and connection speed",
+        "useCase": "Diagnose wireless connectivity and signal strength issues"
+    },
+    {
+        "id": 17,
+        "name": "scan WiFi networks",
+        "category": "wireless",
+        "description": "Scan for available wireless networks",
+        "windows": "netsh wlan show networks",
+        "mac": "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s",
+        "linux": "sudo iwlist wlan0 scan",
+        "explanation": "Lists all nearby WiFi networks with signal strength and security type",
+        "useCase": "Check for wireless interference and available networks"
+    },
+    {
+        "id": 18,
+        "name": "tcpdump",
+        "category": "monitoring",
+        "description": "Capture and analyze network packets",
+        "windows": "Use Wireshark GUI",
+        "mac": "sudo tcpdump -i en0",
+        "linux": "sudo tcpdump -i eth0",
+        "explanation": "Captures raw network traffic for detailed packet analysis",
+        "useCase": "Deep dive into network traffic to diagnose complex issues"
+    },
+    {
+        "id": 19,
+        "name": "nmap",
+        "category": "monitoring",
+        "description": "Network scanner for port discovery",
+        "windows": "nmap 192.168.1.1",
+        "mac": "nmap 192.168.1.1",
+        "linux": "nmap 192.168.1.1",
+        "explanation": "Scans network hosts to discover open ports and running services",
+        "useCase": "Identify what services are running on network devices"
+    },
+    {
+        "id": 20,
+        "name": "speedtest",
+        "category": "connectivity",
+        "description": "Test internet connection speed",
+        "windows": "speedtest-cli",
+        "mac": "speedtest-cli",
+        "linux": "speedtest-cli",
+        "explanation": "Measures download/upload speed and latency to nearest server",
+        "useCase": "Verify if customer is getting expected internet speeds"
+    },
+    {
+        "id": 21,
+        "name": "show VLAN",
+        "category": "configuration",
+        "description": "Display VLAN configuration",
+        "windows": "Get-NetAdapter | Select-Object VlanID",
+        "mac": "networksetup -listallhardwareports",
+        "linux": "ip -d link show",
+        "explanation": "Shows VLAN assignments and tagging configuration",
+        "useCase": "Troubleshoot VLAN segmentation and network isolation issues"
+    },
+    {
+        "id": 22,
+        "name": "openssl s_client",
+        "category": "security",
+        "description": "Test SSL/TLS connections",
+        "windows": "openssl s_client -connect google.com:443",
+        "mac": "openssl s_client -connect google.com:443",
+        "linux": "openssl s_client -connect google.com:443",
+        "explanation": "Tests SSL/TLS handshake and displays certificate information",
+        "useCase": "Diagnose HTTPS connection issues and verify certificates"
+    },
+    {
+        "id": 23,
+        "name": "ethtool",
+        "category": "configuration",
+        "description": "Display/change Ethernet device settings",
+        "windows": "Get-NetAdapter | Select-Object LinkSpeed",
+        "mac": "networksetup -getinfo Ethernet",
+        "linux": "ethtool eth0",
+        "explanation": "Shows link speed, duplex mode, and network adapter statistics",
+        "useCase": "Check physical connection status and speed/duplex mismatches"
+    },
+    {
+        "id": 24,
+        "name": "show NAT table",
+        "category": "security",
+        "description": "Display NAT translations",
+        "windows": "netsh interface portproxy show all",
+        "mac": "pfctl -s nat",
+        "linux": "sudo iptables -t nat -L -n -v",
+        "explanation": "Shows Network Address Translation mappings for private to public IP",
+        "useCase": "Troubleshoot port forwarding and NAT connectivity issues"
+    },
+    {
+        "id": 25,
+        "name": "show firewall rules",
+        "category": "security",
+        "description": "Display firewall configuration",
+        "windows": "netsh advfirewall show allprofiles",
+        "mac": "sudo pfctl -sr",
+        "linux": "sudo iptables -L -n -v",
+        "explanation": "Lists active firewall rules and blocked traffic",
+        "useCase": "Identify if firewall is blocking legitimate traffic"
+    }
+]
+
