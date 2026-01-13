@@ -1,0 +1,1835 @@
+{
+  "scenarios": [
+    {
+      "id": "no-internet",
+      "title": "No Internet Connection",
+      "description": "I can't access the internet at all",
+      "category": "connectivity",
+      "startQuestion": "q1"
+    },
+    {
+      "id": "slow-internet",
+      "title": "Slow Internet or Network",
+      "description": "Everything is loading very slowly",
+      "category": "performance",
+      "startQuestion": "q50"
+    },
+    {
+      "id": "wifi-cant-connect",
+      "title": "Can't Connect to WiFi",
+      "description": "I can't connect to the wireless network",
+      "category": "wireless",
+      "startQuestion": "q100"
+    },
+    {
+      "id": "wifi-keeps-dropping",
+      "title": "WiFi Keeps Disconnecting",
+      "description": "My WiFi connection drops frequently",
+      "category": "wireless",
+      "startQuestion": "q150"
+    },
+    {
+      "id": "cant-access-websites",
+      "title": "Can't Access Specific Websites",
+      "description": "Some websites won't load but others work",
+      "category": "dns",
+      "startQuestion": "q200"
+    },
+    {
+      "id": "vpn-issues",
+      "title": "VPN Not Working",
+      "description": "I can't connect to the company VPN",
+      "category": "vpn",
+      "startQuestion": "q250"
+    },
+    {
+      "id": "email-issues",
+      "title": "Email Problems",
+      "description": "I can't send or receive emails",
+      "category": "email",
+      "startQuestion": "q300"
+    },
+    {
+      "id": "printer-issues",
+      "title": "Printer Not Working",
+      "description": "I can't print documents",
+      "category": "printer",
+      "startQuestion": "q350"
+    },
+    {
+      "id": "zoom-teams-issues",
+      "title": "Video Call Problems",
+      "description": "Zoom or Teams video/audio issues",
+      "category": "video-conferencing",
+      "startQuestion": "q400"
+    },
+    {
+      "id": "file-share-issues",
+      "title": "Can't Access Shared Files",
+      "description": "I can't access network drives or shared folders",
+      "category": "applications",
+      "startQuestion": "q450"
+    },
+    {
+      "id": "no-ip-address",
+      "title": "Computer Says 'No Internet Access'",
+      "description": "Connected but showing no internet or limited connectivity",
+      "category": "dhcp",
+      "startQuestion": "q500"
+    },
+    {
+      "id": "blocked-website",
+      "title": "Website is Blocked",
+      "description": "I get a blocked or security warning when accessing sites",
+      "category": "security",
+      "startQuestion": "q550"
+    },
+    {
+      "id": "cant-login",
+      "title": "Can't Login to Computer/Network",
+      "description": "Login fails or password not working",
+      "category": "authentication",
+      "startQuestion": "q600"
+    },
+    {
+      "id": "device-offline",
+      "title": "Network Device is Offline",
+      "description": "Router, switch, or access point shows offline",
+      "category": "hardware",
+      "startQuestion": "q650"
+    },
+    {
+      "id": "ip-conflict",
+      "title": "IP Address Conflict Error",
+      "description": "Getting 'IP address conflict' message",
+      "category": "dhcp",
+      "startQuestion": "q700"
+    }
+  ],
+  "questions": {
+    "q1": {
+      "id": "q1",
+      "text": "First, let's check the basics. Can you see any websites at all, or is nothing loading?",
+      "type": "choice",
+      "options": [
+        { "text": "Nothing loads at all", "next": "q2" },
+        { "text": "Some things work, but not everything", "next": "q200" }
+      ]
+    },
+    "q2": {
+      "id": "q2",
+      "text": "Are other people in your office or home having the same problem?",
+      "type": "yes-no",
+      "yes": "q3",
+      "no": "q5"
+    },
+    "q3": {
+      "id": "q3",
+      "text": "This looks like a network-wide issue. Can you check if the router/modem has lights on?",
+      "type": "yes-no",
+      "yes": "q4",
+      "no": "sol_no_power"
+    },
+    "q4": {
+      "id": "q4",
+      "text": "Try unplugging the router and modem, wait 30 seconds, then plug them back in. Does internet come back after 2-3 minutes?",
+      "type": "yes-no",
+      "yes": "sol_router_restart_fixed",
+      "no": "sol_isp_outage"
+    },
+    "q5": {
+      "id": "q5",
+      "text": "Just your device has the problem. Are you using WiFi or a cable (Ethernet)?",
+      "type": "choice",
+      "options": [
+        { "text": "WiFi", "next": "q100" },
+        { "text": "Cable (Ethernet)", "next": "q6" }
+      ]
+    },
+    "q6": {
+      "id": "q6",
+      "text": "Can you check if the cable is firmly plugged into both your computer and the wall/router?",
+      "type": "yes-no",
+      "yes": "q7",
+      "no": "sol_cable_loose"
+    },
+    "q7": {
+      "id": "q7",
+      "text": "Try unplugging the cable and plugging it back in. Also try a different port on the wall/router if possible. Does it work now?",
+      "type": "yes-no",
+      "yes": "sol_cable_reseated",
+      "no": "sol_advanced_ethernet"
+    },
+    
+    "q50": {
+      "id": "q50",
+      "text": "Everything is slow. Is it slow for everyone in your office/home, or just you?",
+      "type": "choice",
+      "options": [
+        { "text": "Everyone is affected", "next": "q51" },
+        { "text": "Just my device", "next": "q53" }
+      ]
+    },
+    "q51": {
+      "id": "q51",
+      "text": "Are people streaming videos, downloading large files, or on video calls right now?",
+      "type": "yes-no",
+      "yes": "sol_bandwidth_congestion",
+      "no": "q52"
+    },
+    "q52": {
+      "id": "q52",
+      "text": "This might be an issue with your internet provider. Try restarting your router (unplug for 30 seconds). Does speed improve?",
+      "type": "yes-no",
+      "yes": "sol_router_restart_fixed",
+      "no": "sol_contact_isp_speed"
+    },
+    "q53": {
+      "id": "q53",
+      "text": "Do you have many programs or browser tabs open right now?",
+      "type": "yes-no",
+      "yes": "sol_close_programs",
+      "no": "q54"
+    },
+    "q54": {
+      "id": "q54",
+      "text": "If you're on WiFi, try moving closer to the router. Does it get faster?",
+      "type": "yes-no",
+      "yes": "sol_wifi_signal_weak",
+      "no": "sol_device_performance_issue"
+    },
+    
+    "q100": {
+      "id": "q100",
+      "text": "Let's troubleshoot your WiFi. Can you see your WiFi network in the list of available networks?",
+      "type": "yes-no",
+      "yes": "q101",
+      "no": "q110"
+    },
+    "q101": {
+      "id": "q101",
+      "text": "When you try to connect, what happens?",
+      "type": "choice",
+      "options": [
+        { "text": "It asks for a password", "next": "q102" },
+        { "text": "It says 'Can't connect' or similar error", "next": "q103" },
+        { "text": "It connects but says 'No Internet'", "next": "q500" }
+      ]
+    },
+    "q102": {
+      "id": "q102",
+      "text": "Do you know the correct WiFi password? (It might be on a sticker on the router)",
+      "type": "yes-no",
+      "yes": "q102a",
+      "no": "sol_get_wifi_password"
+    },
+    "q102a": {
+      "id": "q102a",
+      "text": "Are you sure you're typing it exactly right? WiFi passwords are case-sensitive (Capital letters matter).",
+      "type": "yes-no",
+      "yes": "q103",
+      "no": "sol_wrong_wifi_password"
+    },
+    "q103": {
+      "id": "q103",
+      "text": "Try 'forgetting' the network and reconnecting fresh. On your device, find the WiFi settings, tap your network, and choose 'Forget'. Then reconnect. Does it work now?",
+      "type": "yes-no",
+      "yes": "sol_forget_network_fixed",
+      "no": "sol_wifi_advanced"
+    },
+    "q110": {
+      "id": "q110",
+      "text": "You can't see your WiFi network at all. Can you see ANY other WiFi networks nearby?",
+      "type": "yes-no",
+      "yes": "q111",
+      "no": "q112"
+    },
+    "q111": {
+      "id": "q111",
+      "text": "Your WiFi might be hidden or the router might be off. Can you check if the router is powered on and has lights?",
+      "type": "yes-no",
+      "yes": "sol_router_not_broadcasting",
+      "no": "sol_no_power"
+    },
+    "q112": {
+      "id": "q112",
+      "text": "Is WiFi turned on on your device? (Check for a WiFi switch or airplane mode)",
+      "type": "yes-no",
+      "yes": "sol_wifi_adapter_issue",
+      "no": "sol_turn_on_wifi"
+    },
+    
+    "q150": {
+      "id": "q150",
+      "text": "Your WiFi keeps dropping. How often does it disconnect?",
+      "type": "choice",
+      "options": [
+        { "text": "Every few minutes", "next": "q151" },
+        { "text": "When I move around", "next": "q152" },
+        { "text": "At specific times of day", "next": "q153" }
+      ]
+    },
+    "q151": {
+      "id": "q151",
+      "text": "Is your router near a microwave, baby monitor, or cordless phone? These can interfere with WiFi.",
+      "type": "yes-no",
+      "yes": "sol_wifi_interference",
+      "no": "q154"
+    },
+    "q152": {
+      "id": "q152",
+      "text": "This sounds like a weak signal. When you're close to the router, does it stay connected?",
+      "type": "yes-no",
+      "yes": "sol_wifi_signal_weak",
+      "no": "q154"
+    },
+    "q153": {
+      "id": "q153",
+      "text": "Does everyone in your home use the internet heavily at those times (streaming, gaming)?",
+      "type": "yes-no",
+      "yes": "sol_bandwidth_congestion",
+      "no": "q154"
+    },
+    "q154": {
+      "id": "q154",
+      "text": "Try restarting your router (unplug for 30 seconds, plug back in). Does it stay connected better?",
+      "type": "yes-no",
+      "yes": "sol_router_restart_fixed",
+      "no": "sol_wifi_advanced"
+    },
+    
+    "q200": {
+      "id": "q200",
+      "text": "Some websites work but others don't. When a site doesn't load, what do you see?",
+      "type": "choice",
+      "options": [
+        { "text": "Page says 'Can't reach this page' or 'Site can't be reached'", "next": "q201" },
+        { "text": "Page says it's blocked or restricted", "next": "q550" },
+        { "text": "Page just keeps loading forever", "next": "q202" }
+      ]
+    },
+    "q201": {
+      "id": "q201",
+      "text": "This might be a DNS issue. Can you try accessing google.com? Does it work?",
+      "type": "yes-no",
+      "yes": "q203",
+      "no": "sol_dns_issue"
+    },
+    "q202": {
+      "id": "q202",
+      "text": "The site might be down or very slow. Try a different website. Does that one work?",
+      "type": "yes-no",
+      "yes": "sol_specific_site_down",
+      "no": "q50"
+    },
+    "q203": {
+      "id": "q203",
+      "text": "Are the sites that don't work company-specific sites or internal sites?",
+      "type": "yes-no",
+      "yes": "sol_vpn_needed",
+      "no": "sol_dns_issue"
+    },
+    
+    "q250": {
+      "id": "q250",
+      "text": "VPN isn't working. When you try to connect, what happens?",
+      "type": "choice",
+      "options": [
+        { "text": "It asks for username/password", "next": "q251" },
+        { "text": "It says 'Connection failed' or times out", "next": "q252" },
+        { "text": "It connects but I can't access anything", "next": "q253" }
+      ]
+    },
+    "q251": {
+      "id": "q251",
+      "text": "Are you using your correct work username and password? (Same one you use to login to your computer)",
+      "type": "yes-no",
+      "yes": "sol_vpn_credentials_wrong",
+      "no": "sol_vpn_credentials_wrong"
+    },
+    "q252": {
+      "id": "q252",
+      "text": "Are you connected to the internet? Try opening a website to check.",
+      "type": "yes-no",
+      "yes": "q254",
+      "no": "q1"
+    },
+    "q253": {
+      "id": "q253",
+      "text": "VPN is connected but nothing works. This is a routing issue. Do you need help contacting IT?",
+      "type": "yes-no",
+      "yes": "sol_contact_it_vpn",
+      "no": "sol_contact_it_vpn"
+    },
+    "q254": {
+      "id": "q254",
+      "text": "Is your VPN software up to date? Check if there's an update available.",
+      "type": "yes-no",
+      "yes": "sol_vpn_firewall",
+      "no": "sol_vpn_update_needed"
+    },
+    
+    "q300": {
+      "id": "q300",
+      "text": "Email isn't working. What exactly is the problem?",
+      "type": "choice",
+      "options": [
+        { "text": "Can't send emails", "next": "q301" },
+        { "text": "Can't receive emails", "next": "q302" },
+        { "text": "Can't login to email", "next": "q303" }
+      ]
+    },
+    "q301": {
+      "id": "q301",
+      "text": "Do you get an error message when trying to send? If yes, what does it say?",
+      "type": "choice",
+      "options": [
+        { "text": "Something about 'SMTP' or 'port'", "next": "sol_smtp_issue" },
+        { "text": "Mailbox full or quota exceeded", "next": "sol_mailbox_full" },
+        { "text": "Attachment too large", "next": "sol_attachment_too_large" },
+        { "text": "No specific error", "next": "q304" }
+      ]
+    },
+    "q302": {
+      "id": "q302",
+      "text": "Have you received ANY emails today, or is it completely silent?",
+      "type": "choice",
+      "options": [
+        { "text": "No emails at all", "next": "q305" },
+        { "text": "Getting some but not all", "next": "sol_spam_filter" }
+      ]
+    },
+    "q303": {
+      "id": "q303",
+      "text": "What error do you get when logging in?",
+      "type": "choice",
+      "options": [
+        { "text": "Wrong username or password", "next": "sol_email_password_wrong" },
+        { "text": "Account locked or disabled", "next": "sol_account_locked" },
+        { "text": "Can't connect to server", "next": "q1" }
+      ]
+    },
+    "q304": {
+      "id": "q304",
+      "text": "Are you connected to the internet? Try opening a website.",
+      "type": "yes-no",
+      "yes": "sol_email_server_down",
+      "no": "q1"
+    },
+    "q305": {
+      "id": "q305",
+      "text": "Try sending yourself a test email from another account. Do you receive it?",
+      "type": "yes-no",
+      "yes": "sol_no_one_emailing_you",
+      "no": "sol_email_not_syncing"
+    },
+    
+    "q350": {
+      "id": "q350",
+      "text": "Printer isn't working. What happens when you try to print?",
+      "type": "choice",
+      "options": [
+        { "text": "Nothing happens at all", "next": "q351" },
+        { "text": "Error message appears", "next": "q352" },
+        { "text": "It prints but looks wrong (blank, faded, etc)", "next": "q353" }
+      ]
+    },
+    "q351": {
+      "id": "q351",
+      "text": "First, is the printer turned on and showing a ready status? (Check for lights/display)",
+      "type": "yes-no",
+      "yes": "q354",
+      "no": "sol_printer_off"
+    },
+    "q352": {
+      "id": "q352",
+      "text": "What does the error say?",
+      "type": "choice",
+      "options": [
+        { "text": "Printer offline or not found", "next": "q354" },
+        { "text": "Paper jam", "next": "sol_paper_jam" },
+        { "text": "Low ink or toner", "next": "sol_low_ink" },
+        { "text": "Something else", "next": "q355" }
+      ]
+    },
+    "q353": {
+      "id": "q353",
+      "text": "What's wrong with the printout?",
+      "type": "choice",
+      "options": [
+        { "text": "Blank pages", "next": "sol_low_ink" },
+        { "text": "Faded or streaky", "next": "sol_low_ink" },
+        { "text": "Wrong colors", "next": "sol_printer_calibration" },
+        { "text": "Smudged or messy", "next": "sol_printer_maintenance" }
+      ]
+    },
+    "q354": {
+      "id": "q354",
+      "text": "Is the printer on the same WiFi network as your computer? (For wireless printers)",
+      "type": "yes-no",
+      "yes": "q356",
+      "no": "sol_printer_wrong_network"
+    },
+    "q355": {
+      "id": "q355",
+      "text": "Check the printer's display screen for error messages. Can you see anything?",
+      "type": "yes-no",
+      "yes": "sol_check_printer_manual",
+      "no": "sol_restart_printer"
+    },
+    "q356": {
+      "id": "q356",
+      "text": "Try turning off the printer, waiting 30 seconds, then turning it back on. Does it work now?",
+      "type": "yes-no",
+      "yes": "sol_printer_restart_fixed",
+      "no": "sol_printer_driver_issue"
+    },
+    
+    "q400": {
+      "id": "q400",
+      "text": "Video call issues. Which app are you using?",
+      "type": "choice",
+      "options": [
+        { "text": "Zoom", "next": "q401" },
+        { "text": "Microsoft Teams", "next": "q401" },
+        { "text": "Google Meet", "next": "q401" },
+        { "text": "Other", "next": "q401" }
+      ]
+    },
+    "q401": {
+      "id": "q401",
+      "text": "What's the specific problem?",
+      "type": "choice",
+      "options": [
+        { "text": "Can't hear others", "next": "q402" },
+        { "text": "Others can't hear me", "next": "q403" },
+        { "text": "Can't see video", "next": "q404" },
+        { "text": "Others can't see me", "next": "q405" },
+        { "text": "Poor quality (choppy/laggy)", "next": "q406" }
+      ]
+    },
+    "q402": {
+      "id": "q402",
+      "text": "Check your speaker volume - is it turned up?",
+      "type": "yes-no",
+      "yes": "sol_check_meeting_audio_settings",
+      "no": "sol_turn_up_volume"
+    },
+    "q403": {
+      "id": "q403",
+      "text": "Is your microphone muted in the meeting? Look for a microphone icon with a line through it.",
+      "type": "yes-no",
+      "yes": "sol_unmute_microphone",
+      "no": "q407"
+    },
+    "q404": {
+      "id": "q404",
+      "text": "Have others turned on their cameras? Ask someone to enable their video.",
+      "type": "yes-no",
+      "yes": "sol_check_video_settings",
+      "no": "sol_others_camera_off"
+    },
+    "q405": {
+      "id": "q405",
+      "text": "Is there a 'Start Video' or camera icon at the bottom? Click it to enable your camera.",
+      "type": "yes-no",
+      "yes": "q408",
+      "no": "sol_camera_permission_denied"
+    },
+    "q406": {
+      "id": "q406",
+      "text": "Is anyone else on your WiFi streaming videos or downloading large files?",
+      "type": "yes-no",
+      "yes": "sol_bandwidth_video_call",
+      "no": "q409"
+    },
+    "q407": {
+      "id": "q407",
+      "text": "Check if your computer's microphone is working. Try recording a voice memo or using another app.",
+      "type": "yes-no",
+      "yes": "sol_check_meeting_audio_settings",
+      "no": "sol_microphone_not_working"
+    },
+    "q408": {
+      "id": "q408",
+      "text": "Does your camera work in other apps (like Photo Booth, Camera app)?",
+      "type": "yes-no",
+      "yes": "sol_camera_permission_denied",
+      "no": "sol_camera_hardware_issue"
+    },
+    "q409": {
+      "id": "q409",
+      "text": "Try turning off your video in the call. Does audio quality improve?",
+      "type": "yes-no",
+      "yes": "sol_disable_video_for_better_call",
+      "no": "sol_internet_too_slow_calls"
+    },
+    
+    "q450": {
+      "id": "q450",
+      "text": "Can't access shared files. What exactly happens when you try?",
+      "type": "choice",
+      "options": [
+        { "text": "Can't find the network drive", "next": "q451" },
+        { "text": "Access denied or permission error", "next": "q452" },
+        { "text": "Drive is there but empty", "next": "q453" },
+        { "text": "Very slow to open", "next": "q50" }
+      ]
+    },
+    "q451": {
+      "id": "q451",
+      "text": "Are you connected to the company network or VPN? Shared drives usually require this.",
+      "type": "yes-no",
+      "yes": "q454",
+      "no": "sol_connect_vpn_first"
+    },
+    "q452": {
+      "id": "q452",
+      "text": "This is a permissions issue. Have you accessed this folder before?",
+      "type": "yes-no",
+      "yes": "sol_permissions_changed",
+      "no": "sol_request_access"
+    },
+    "q453": {
+      "id": "q453",
+      "text": "Files might be hidden. In the folder, try pressing Ctrl+H (Windows) or Cmd+Shift+. (Mac) to show hidden files.",
+      "type": "yes-no",
+      "yes": "sol_files_were_hidden",
+      "no": "sol_wrong_folder"
+    },
+    "q454": {
+      "id": "q454",
+      "text": "Try disconnecting and reconnecting to the network drive. Does it appear now?",
+      "type": "yes-no",
+      "yes": "sol_drive_remounted",
+      "no": "sol_contact_it_shares"
+    },
+    
+    "q500": {
+      "id": "q500",
+      "text": "You're connected but have no internet. Do you see a yellow triangle or exclamation mark on your WiFi/network icon?",
+      "type": "yes-no",
+      "yes": "q501",
+      "no": "q502"
+    },
+    "q501": {
+      "id": "q501",
+      "text": "This usually means no IP address or gateway issue. Try disconnecting and reconnecting to WiFi/network.",
+      "type": "yes-no",
+      "yes": "sol_reconnect_fixed",
+      "no": "q503"
+    },
+    "q502": {
+      "id": "q502",
+      "text": "Can other devices on the same network access the internet?",
+      "type": "yes-no",
+      "yes": "q503",
+      "no": "q3"
+    },
+    "q503": {
+      "id": "q503",
+      "text": "We need to renew your IP address. This requires a command. Are you comfortable opening Command Prompt (Windows) or Terminal (Mac)?",
+      "type": "yes-no",
+      "yes": "sol_renew_ip",
+      "no": "sol_contact_it_no_ip"
+    },
+    
+    "q550": {
+      "id": "q550",
+      "text": "A website is blocked. What type of message do you see?",
+      "type": "choice",
+      "options": [
+        { "text": "Company security policy / content filter", "next": "q551" },
+        { "text": "Security warning (red screen)", "next": "q552" },
+        { "text": "Page blocked by administrator", "next": "q551" }
+      ]
+    },
+    "q551": {
+      "id": "q551",
+      "text": "This site is blocked by your company's security policy. Is this a site you need for work?",
+      "type": "yes-no",
+      "yes": "sol_request_website_unblock",
+      "no": "sol_site_blocked_policy"
+    },
+    "q552": {
+      "id": "q552",
+      "text": "Does it say the security certificate is invalid or expired?",
+      "type": "yes-no",
+      "yes": "sol_certificate_warning",
+      "no": "sol_malicious_site_warning"
+    },
+    
+    "q600": {
+      "id": "q600",
+      "text": "Can't login. What happens when you try?",
+      "type": "choice",
+      "options": [
+        { "text": "Says password is incorrect", "next": "q601" },
+        { "text": "Account is locked", "next": "sol_account_locked" },
+        { "text": "Computer says 'Cannot connect to domain'", "next": "q602" },
+        { "text": "Keyboard isn't working", "next": "sol_keyboard_not_working" }
+      ]
+    },
+    "q601": {
+      "id": "q601",
+      "text": "Are you sure Caps Lock is off? Check your keyboard.",
+      "type": "yes-no",
+      "yes": "q603",
+      "no": "sol_caps_lock_on"
+    },
+    "q602": {
+      "id": "q602",
+      "text": "Are you in the office or working remotely?",
+      "type": "choice",
+      "options": [
+        { "text": "In the office", "next": "sol_check_network_cable" },
+        { "text": "Remote/home", "next": "sol_connect_vpn_first" }
+      ]
+    },
+    "q603": {
+      "id": "q603",
+      "text": "Try typing your password in Notepad first to make sure it's correct. Does it look right?",
+      "type": "yes-no",
+      "yes": "sol_password_expired",
+      "no": "sol_password_reset_needed"
+    },
+    
+    "q650": {
+      "id": "q650",
+      "text": "A network device shows offline. Which type of device is it?",
+      "type": "choice",
+      "options": [
+        { "text": "WiFi access point", "next": "q651" },
+        { "text": "Router", "next": "q651" },
+        { "text": "Switch", "next": "q651" },
+        { "text": "Not sure", "next": "q651" }
+      ]
+    },
+    "q651": {
+      "id": "q651",
+      "text": "First, is the device powered on? Check if it has any lights.",
+      "type": "yes-no",
+      "yes": "q652",
+      "no": "sol_device_no_power"
+    },
+    "q652": {
+      "id": "q652",
+      "text": "Are the lights blinking or solid? What color are they?",
+      "type": "choice",
+      "options": [
+        { "text": "Green and blinking normally", "next": "q653" },
+        { "text": "Red or amber", "next": "sol_device_error_state" },
+        { "text": "No lights at all", "next": "sol_device_no_power" }
+      ]
+    },
+    "q653": {
+      "id": "q653",
+      "text": "Check if the network cable is firmly plugged in. Try unplugging and replugging it.",
+      "type": "yes-no",
+      "yes": "q654",
+      "no": "sol_cable_loose"
+    },
+    "q654": {
+      "id": "q654",
+      "text": "Try restarting the device (unplug, wait 30 seconds, plug back in). Does it come back online?",
+      "type": "yes-no",
+      "yes": "sol_device_restart_fixed",
+      "no": "sol_contact_it_device_offline"
+    },
+    
+    "q700": {
+      "id": "q700",
+      "text": "IP conflict error. This means two devices have the same IP address. Are you on WiFi or wired?",
+      "type": "choice",
+      "options": [
+        { "text": "WiFi", "next": "q701" },
+        { "text": "Wired", "next": "q701" }
+      ]
+    },
+    "q701": {
+      "id": "q701",
+      "text": "Disconnect from the network, wait 10 seconds, then reconnect. Does the error go away?",
+      "type": "yes-no",
+      "yes": "sol_ip_conflict_resolved",
+      "no": "sol_static_ip_conflict"
+    }
+  },
+  "solutions": {
+    "sol_no_power": {
+      "id": "sol_no_power",
+      "title": "Device Has No Power",
+      "steps": [
+        "Check if the power cable is firmly plugged into the device and wall outlet",
+        "Try a different power outlet",
+        "Check if there's a power switch on the device - make sure it's ON",
+        "Look for a blown fuse or tripped circuit breaker",
+        "If still no lights, the power adapter may be faulty"
+      ],
+      "commands": [],
+      "relatedKB": ["hardware-power-issues", "router-wont-turn-on"]
+    },
+    "sol_router_restart_fixed": {
+      "id": "sol_router_restart_fixed",
+      "title": "Problem Resolved After Restart",
+      "steps": [
+        "Great! Your router just needed a restart",
+        "In the future, if you have issues, try this first",
+        "If you need to restart frequently, consider scheduling automatic reboots"
+      ],
+      "commands": [],
+      "relatedKB": ["router-maintenance"]
+    },
+    "sol_isp_outage": {
+      "id": "sol_isp_outage",
+      "title": "Internet Service Provider Outage",
+      "steps": [
+        "Your router appears fine but there's no internet from your ISP",
+        "Check your ISP's status page or social media for outage reports",
+        "Call your ISP's support number to report the outage",
+        "They can check your connection and give you an estimated fix time",
+        "Save this number for future reference"
+      ],
+      "commands": [],
+      "relatedKB": ["isp-outage-what-to-do"]
+    },
+    "sol_cable_loose": {
+      "id": "sol_cable_loose",
+      "title": "Cable Connection Issue",
+      "steps": [
+        "Unplug both ends of your network cable completely",
+        "Check for any visible damage to the cable",
+        "Firmly plug both ends back in until you hear a click",
+        "If possible, try a different network cable",
+        "You should see a light near the ethernet port when properly connected"
+      ],
+      "commands": [],
+      "relatedKB": ["ethernet-cable-basics"]
+    },
+    "sol_cable_reseated": {
+      "id": "sol_cable_reseated",
+      "title": "Cable Reseated Successfully",
+      "steps": [
+        "Good! The cable just needed to be plugged in properly",
+        "Make sure cables aren't being pulled or stretched",
+        "Secure the cable with clips if it keeps coming loose"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_advanced_ethernet": {
+      "id": "sol_advanced_ethernet",
+      "title": "Advanced Ethernet Troubleshooting Needed",
+      "steps": [
+        "The physical connection seems fine but there's still an issue",
+        "This might be a network adapter or driver problem",
+        "Contact IT support for advanced troubleshooting",
+        "They may need to check switch port configuration or adapter settings"
+      ],
+      "commands": ["ipconfig /all"],
+      "relatedKB": ["contact-it-support"]
+    },
+    "sol_bandwidth_congestion": {
+      "id": "sol_bandwidth_congestion",
+      "title": "Too Much Network Usage",
+      "steps": [
+        "Your network is congested - too many people using it at once",
+        "Ask others to pause large downloads or streaming temporarily",
+        "Close any programs you're not using",
+        "Video calls use a lot of bandwidth - consider turning off video",
+        "If this happens often, you may need a faster internet plan"
+      ],
+      "commands": [],
+      "relatedKB": ["bandwidth-management", "qos-explained"]
+    },
+    "sol_contact_isp_speed": {
+      "id": "sol_contact_isp_speed",
+      "title": "Contact Your Internet Provider",
+      "steps": [
+        "Your internet is slower than it should be",
+        "Contact your ISP and tell them about the slow speeds",
+        "They can run remote tests on your connection",
+        "There might be a problem with your line or local infrastructure",
+        "Ask them to check for outages or maintenance in your area"
+      ],
+      "commands": ["speedtest-cli"],
+      "relatedKB": ["slow-internet-isp-issues"]
+    },
+    "sol_close_programs": {
+      "id": "sol_close_programs",
+      "title": "Too Many Programs Running",
+      "steps": [
+        "Your computer is running too many things at once",
+        "Close browser tabs you're not using",
+        "Close programs running in the background",
+        "Check for large downloads or updates happening",
+        "Restart your computer if it's been on for days"
+      ],
+      "commands": ["tasklist", "netstat -ano"],
+      "relatedKB": ["computer-running-slow"]
+    },
+    "sol_wifi_signal_weak": {
+      "id": "sol_wifi_signal_weak",
+      "title": "Weak WiFi Signal",
+      "steps": [
+        "Your WiFi signal is too weak",
+        "Move closer to the router",
+        "Remove obstacles between you and the router (walls, metal objects)",
+        "Try elevating the router to a higher position",
+        "Consider a WiFi extender for better coverage",
+        "Switch to 2.4GHz instead of 5GHz for better range (but slower speed)"
+      ],
+      "commands": ["netsh wlan show interfaces"],
+      "relatedKB": ["wifi-signal-strength", "wifi-extenders"]
+    },
+    "sol_device_performance_issue": {
+      "id": "sol_device_performance_issue",
+      "title": "Device Performance Problem",
+      "steps": [
+        "Your device itself might be slow, not just the network",
+        "Restart your computer",
+        "Check if your hard drive is almost full (need at least 10% free)",
+        "Run a virus/malware scan",
+        "Check for pending software updates",
+        "Consider upgrading if your device is very old"
+      ],
+      "commands": [],
+      "relatedKB": ["computer-maintenance"]
+    },
+    "sol_get_wifi_password": {
+      "id": "sol_get_wifi_password",
+      "title": "Get WiFi Password",
+      "steps": [
+        "Check for a sticker on your router - password is often printed there",
+        "Check your router's box or manual",
+        "Ask someone who previously connected",
+        "If you have access to router settings, you can view/reset it there",
+        "For office WiFi, contact your IT department"
+      ],
+      "commands": [],
+      "relatedKB": ["find-wifi-password", "router-login"]
+    },
+    "sol_wrong_wifi_password": {
+      "id": "sol_wrong_wifi_password",
+      "title": "Incorrect WiFi Password",
+      "steps": [
+        "Double-check the password - WiFi passwords are case-sensitive",
+        "Make sure you're not typing 'O' (letter) instead of '0' (zero)",
+        "Try copying and pasting the password if possible",
+        "Have someone else type it to check for errors",
+        "If you recently changed your password, use the new one"
+      ],
+      "commands": [],
+      "relatedKB": ["wifi-password-issues"]
+    },
+    "sol_forget_network_fixed": {
+      "id": "sol_forget_network_fixed",
+      "title": "Network Forget Fixed Connection",
+      "steps": [
+        "Great! Forgetting and reconnecting fixed the issue",
+        "This clears old saved settings that were causing problems",
+        "Your device will remember the correct settings now"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_wifi_advanced": {
+      "id": "sol_wifi_advanced",
+      "title": "Advanced WiFi Troubleshooting Needed",
+      "steps": [
+        "This is a more complex WiFi issue",
+        "Possible causes: MAC address filtering, router capacity limits, or authentication issues",
+        "Try connecting to a guest network if available",
+        "Contact IT support - they may need to check router settings",
+        "Bring another device to confirm the issue is with your device or the network"
+      ],
+      "commands": ["ipconfig /all", "netsh wlan show profiles"],
+      "relatedKB": ["contact-it-support", "mac-filtering"]
+    },
+    "sol_router_not_broadcasting": {
+      "id": "sol_router_not_broadcasting",
+      "title": "Router Not Broadcasting WiFi",
+      "steps": [
+        "Your router appears to be working but WiFi might be turned off or hidden",
+        "Try connecting with an ethernet cable to access router settings",
+        "Check if WiFi broadcasting is enabled in router settings",
+        "The SSID (network name) might be hidden - ask IT for the exact name",
+        "Restart the router - unplug for 30 seconds then plug back in"
+      ],
+      "commands": [],
+      "relatedKB": ["router-settings", "hidden-wifi-network"]
+    },
+    "sol_wifi_adapter_issue": {
+      "id": "sol_wifi_adapter_issue",
+      "title": "WiFi Adapter Problem",
+      "steps": [
+        "Your computer's WiFi adapter might not be working",
+        "Try restarting your computer",
+        "Check Device Manager (Windows) for yellow exclamation marks",
+        "Update your WiFi drivers",
+        "As a temporary fix, use an ethernet cable",
+        "Contact IT if the problem persists - might need a USB WiFi adapter"
+      ],
+      "commands": ["netsh wlan show drivers"],
+      "relatedKB": ["wifi-adapter-troubleshooting", "driver-updates"]
+    },
+    "sol_turn_on_wifi": {
+      "id": "sol_turn_on_wifi",
+      "title": "Turn On WiFi",
+      "steps": [
+        "Your WiFi is turned off",
+        "Look for a physical WiFi switch on your laptop",
+        "Try the WiFi function key (usually Fn + F2 or similar)",
+        "Check your computer settings - WiFi might be disabled",
+        "Turn off Airplane Mode if it's on",
+        "Restart your computer if WiFi won't turn on"
+      ],
+      "commands": [],
+      "relatedKB": ["enable-wifi"]
+    },
+    "sol_wifi_interference": {
+      "id": "sol_wifi_interference",
+      "title": "WiFi Interference Issue",
+      "steps": [
+        "Other devices are interfering with your WiFi signal",
+        "Move your router away from microwaves, baby monitors, and cordless phones",
+        "Bluetooth devices can also interfere - try turning them off",
+        "Try switching to a different WiFi channel in router settings",
+        "5GHz WiFi has less interference than 2.4GHz",
+        "Consider using wired ethernet for critical connections"
+      ],
+      "commands": [],
+      "relatedKB": ["wifi-interference", "wifi-channels"]
+    },
+    "sol_dns_issue": {
+      "id": "sol_dns_issue",
+      "title": "DNS Resolution Problem",
+      "steps": [
+        "Your computer can't translate website names to addresses",
+        "This is usually a temporary issue - try again in a few minutes",
+        "Restart your router",
+        "If you're comfortable with commands, you can flush DNS cache",
+        "Try changing your DNS servers to Google DNS (8.8.8.8)",
+        "Contact IT if the problem persists"
+      ],
+      "commands": ["ipconfig /flushdns", "nslookup google.com"],
+      "relatedKB": ["dns-explained", "change-dns-servers"]
+    },
+    "sol_specific_site_down": {
+      "id": "sol_specific_site_down",
+      "title": "Specific Website is Down",
+      "steps": [
+        "That particular website appears to be down or having issues",
+        "It's not a problem with your internet",
+        "Wait a while and try again later",
+        "Check if others can access it (use downforeveryoneorjustme.com)",
+        "Try accessing from your phone on cellular data to confirm",
+        "Clear your browser cache if the site was working before"
+      ],
+      "commands": [],
+      "relatedKB": ["website-down-vs-internet-down"]
+    },
+    "sol_vpn_needed": {
+      "id": "sol_vpn_needed",
+      "title": "VPN Connection Required",
+      "steps": [
+        "You need to be connected to your company VPN to access this",
+        "Internal company sites are only accessible from the office or through VPN",
+        "Connect to your VPN first, then try accessing the site",
+        "If you don't have VPN set up, contact IT support",
+        "Make sure you're using your work computer or VPN-enabled device"
+      ],
+      "commands": [],
+      "relatedKB": ["vpn-setup", "remote-access"]
+    },
+    "sol_vpn_credentials_wrong": {
+      "id": "sol_vpn_credentials_wrong",
+      "title": "VPN Login Credentials Issue",
+      "steps": [
+        "Your VPN username or password might be wrong",
+        "Use the same credentials you use to login to your work computer",
+        "Check if Caps Lock is on",
+        "Your password might have expired - try changing it",
+        "Some VPNs require two-factor authentication - check your phone",
+        "Contact IT to reset your VPN password if needed"
+      ],
+      "commands": [],
+      "relatedKB": ["vpn-login-help", "password-reset"]
+    },
+    "sol_contact_it_vpn": {
+      "id": "sol_contact_it_vpn",
+      "title": "Contact IT for VPN Help",
+      "steps": [
+        "This is a more complex VPN configuration issue",
+        "VPN is connected but routing isn't working properly",
+        "This requires IT support to fix",
+        "Contact your IT helpdesk with these details:",
+        "- VPN connects successfully",
+        "- You can't access internal resources",
+        "- Error messages you're seeing"
+      ],
+      "commands": ["ipconfig /all", "tracert [internal-site]"],
+      "relatedKB": ["contact-it-support"]
+    },
+    "sol_vpn_firewall": {
+      "id": "sol_vpn_firewall",
+      "title": "VPN Blocked by Firewall",
+      "steps": [
+        "Your firewall or security software might be blocking VPN",
+        "Try temporarily disabling your firewall/antivirus and connecting",
+        "If that works, add an exception for your VPN software",
+        "Some public WiFi networks block VPN - try a different network",
+        "Contact IT if you need help configuring firewall exceptions"
+      ],
+      "commands": [],
+      "relatedKB": ["firewall-vpn-issues"]
+    },
+    "sol_vpn_update_needed": {
+      "id": "sol_vpn_update_needed",
+      "title": "VPN Software Needs Update",
+      "steps": [
+        "Your VPN software is out of date",
+        "Open your VPN application and check for updates",
+        "Download and install any available updates",
+        "Restart your computer after updating",
+        "Try connecting to VPN again",
+        "Contact IT if you can't find or install updates"
+      ],
+      "commands": [],
+      "relatedKB": ["vpn-updates"]
+    },
+    "sol_smtp_issue": {
+      "id": "sol_smtp_issue",
+      "title": "Email Sending (SMTP) Problem",
+      "steps": [
+        "There's an issue with your outgoing mail server",
+        "Check your internet connection",
+        "Your email account settings might be wrong",
+        "Contact IT support - they need to check your mail server settings",
+        "As a workaround, use webmail instead of email client"
+      ],
+      "commands": [],
+      "relatedKB": ["email-smtp-settings", "contact-it-support"]
+    },
+    "sol_mailbox_full": {
+      "id": "sol_mailbox_full",
+      "title": "Mailbox is Full",
+      "steps": [
+        "Your email inbox has reached its storage limit",
+        "Delete old emails, especially ones with large attachments",
+        "Empty your Deleted Items/Trash folder",
+        "Archive old emails to free up space",
+        "Contact IT if you need your mailbox quota increased"
+      ],
+      "commands": [],
+      "relatedKB": ["mailbox-quota", "email-archiving"]
+    },
+    "sol_attachment_too_large": {
+      "id": "sol_attachment_too_large",
+      "title": "Email Attachment Too Large",
+      "steps": [
+        "Your file is too big to send via email (usually limit is 10-25 MB)",
+        "Try compressing the file into a .zip",
+        "Use a file sharing service instead (OneDrive, Google Drive, SharePoint)",
+        "Split large files into multiple smaller parts",
+        "Ask the recipient if they have a file transfer service"
+      ],
+      "commands": [],
+      "relatedKB": ["send-large-files", "file-sharing-services"]
+    },
+    "sol_spam_filter": {
+      "id": "sol_spam_filter",
+      "title": "Emails Going to Spam",
+      "steps": [
+        "Check your Spam or Junk mail folder",
+        "Mark legitimate emails as 'Not Spam'",
+        "Add important senders to your contacts or safe senders list",
+        "Check if emails are being forwarded to another folder by rules",
+        "Contact IT if you're missing important work emails"
+      ],
+      "commands": [],
+      "relatedKB": ["spam-filter-settings"]
+    },
+    "sol_email_password_wrong": {
+      "id": "sol_email_password_wrong",
+      "title": "Email Password Incorrect",
+      "steps": [
+        "Your email password is wrong or has changed",
+        "Try logging into webmail to verify your password",
+        "Your password might have expired - change it",
+        "Use the same password you use for your computer login",
+        "Some email systems use app-specific passwords - check with IT",
+        "Reset your password if you can't remember it"
+      ],
+      "commands": [],
+      "relatedKB": ["password-reset", "email-password-help"]
+    },
+    "sol_account_locked": {
+      "id": "sol_account_locked",
+      "title": "Account is Locked",
+      "steps": [
+        "Your account has been locked due to too many failed login attempts",
+        "Wait 30 minutes and try again",
+        "Contact IT support to unlock your account immediately",
+        "Make sure you're using the correct password going forward",
+        "Consider using a password manager to avoid this"
+      ],
+      "commands": [],
+      "relatedKB": ["account-lockout-policy", "contact-it-support"]
+    },
+    "sol_email_server_down": {
+      "id": "sol_email_server_down",
+      "title": "Email Server Issue",
+      "steps": [
+        "The email server might be down or having problems",
+        "Check if others in your company have the same issue",
+        "Try accessing webmail instead of your email client",
+        "Wait a while and try again",
+        "Contact IT if the problem persists"
+      ],
+      "commands": [],
+      "relatedKB": ["email-outage", "contact-it-support"]
+    },
+    "sol_no_one_emailing_you": {
+      "id": "sol_no_one_emailing_you",
+      "title": "Email is Working Fine",
+      "steps": [
+        "Your email appears to be working correctly",
+        "You're just not receiving emails because no one has sent you any",
+        "Check your Sent folder to confirm your test email worked",
+        "Your email is functioning normally"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_email_not_syncing": {
+      "id": "sol_email_not_syncing",
+      "title": "Email Not Syncing",
+      "steps": [
+        "Your email client isn't downloading new messages",
+        "Check your internet connection",
+        "Try the 'Send/Receive' button to force a sync",
+        "Close and reopen your email program",
+        "Check if you're in offline mode (look for 'Work Offline' setting)",
+        "Remove and re-add your email account if problem persists"
+      ],
+      "commands": [],
+      "relatedKB": ["email-sync-issues"]
+    },
+    "sol_printer_off": {
+      "id": "sol_printer_off",
+      "title": "Printer is Turned Off",
+      "steps": [
+        "Your printer is turned off or in sleep mode",
+        "Press the power button to turn it on",
+        "Wait for it to fully start up (may take 30-60 seconds)",
+        "Check if it shows 'Ready' on the display",
+        "If it won't turn on, check the power cable"
+      ],
+      "commands": [],
+      "relatedKB": ["printer-basics"]
+    },
+    "sol_paper_jam": {
+      "id": "sol_paper_jam",
+      "title": "Paper Jam",
+      "steps": [
+        "There's paper stuck inside the printer",
+        "Turn off the printer first",
+        "Open all access doors and trays",
+        "Gently pull out any stuck paper - pull in the direction of paper flow",
+        "Check for small torn pieces",
+        "Close all doors and turn printer back on",
+        "Try printing a test page"
+      ],
+      "commands": [],
+      "relatedKB": ["clear-paper-jam"]
+    },
+    "sol_low_ink": {
+      "id": "sol_low_ink",
+      "title": "Low or Empty Ink/Toner",
+      "steps": [
+        "Your printer is low on ink or toner",
+        "Check the printer display for which cartridge needs replacing",
+        "Remove and reinsert cartridges to ensure they're seated properly",
+        "Replace empty cartridges with new ones",
+        "Run a printer cleaning cycle if available",
+        "Contact IT if you need replacement cartridges"
+      ],
+      "commands": [],
+      "relatedKB": ["replace-ink-cartridge"]
+    },
+    "sol_printer_calibration": {
+      "id": "sol_printer_calibration",
+      "title": "Printer Needs Calibration",
+      "steps": [
+        "Your printer's colors are off",
+        "Run a printer calibration from the settings menu",
+        "Print a test page to check colors",
+        "Make sure you're using the right paper type",
+        "Check if you have genuine ink cartridges (not generic)",
+        "Consult your printer manual for calibration instructions"
+      ],
+      "commands": [],
+      "relatedKB": ["printer-calibration"]
+    },
+    "sol_printer_maintenance": {
+      "id": "sol_printer_maintenance",
+      "title": "Printer Needs Maintenance",
+      "steps": [
+        "Your printer needs cleaning",
+        "Run the print head cleaning utility (in printer settings)",
+        "Clean the printer rollers with a lint-free cloth",
+        "Make sure paper isn't dusty or damaged",
+        "Check for debris inside the printer",
+        "Regular maintenance prevents poor print quality"
+      ],
+      "commands": [],
+      "relatedKB": ["printer-maintenance"]
+    },
+    "sol_printer_wrong_network": {
+      "id": "sol_printer_wrong_network",
+      "title": "Printer on Wrong Network",
+      "steps": [
+        "Your printer is connected to a different WiFi network",
+        "Access printer settings through its display panel",
+        "Go to Network or WiFi settings",
+        "Connect it to the same network as your computer",
+        "You may need to enter the WiFi password",
+        "Check printer manual for network setup instructions"
+      ],
+      "commands": [],
+      "relatedKB": ["connect-printer-to-wifi"]
+    },
+    "sol_check_printer_manual": {
+      "id": "sol_check_printer_manual",
+      "title": "Check Printer Manual",
+      "steps": [
+        "Your printer is showing a specific error code",
+        "Write down the exact error code or message",
+        "Look up this code in your printer's manual",
+        "Search online: [printer model] + [error code]",
+        "Contact IT support with the error details if you can't resolve it"
+      ],
+      "commands": [],
+      "relatedKB": ["printer-error-codes"]
+    },
+    "sol_restart_printer": {
+      "id": "sol_restart_printer",
+      "title": "Restart Printer",
+      "steps": [
+        "Turn off the printer completely",
+        "Unplug it from power",
+        "Wait 30 seconds",
+        "Plug it back in and turn it on",
+        "Wait for it to fully initialize",
+        "Try printing a test page"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_printer_restart_fixed": {
+      "id": "sol_printer_restart_fixed",
+      "title": "Printer Fixed After Restart",
+      "steps": [
+        "Great! Your printer just needed a restart",
+        "Printers can have temporary glitches that a restart fixes",
+        "If this happens frequently, let IT know"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_printer_driver_issue": {
+      "id": "sol_printer_driver_issue",
+      "title": "Printer Driver Problem",
+      "steps": [
+        "This might be a printer driver or connection issue",
+        "Try removing and re-adding the printer",
+        "Make sure you have the latest printer drivers",
+        "Try printing from a different program to isolate the issue",
+        "Contact IT support for advanced printer troubleshooting"
+      ],
+      "commands": [],
+      "relatedKB": ["printer-driver-install", "contact-it-support"]
+    },
+    "sol_check_meeting_audio_settings": {
+      "id": "sol_check_meeting_audio_settings",
+      "title": "Check Video Call Audio Settings",
+      "steps": [
+        "Click the audio/microphone settings in your meeting app",
+        "Make sure the correct speaker/microphone is selected",
+        "Test your audio using the built-in test feature",
+        "Try selecting a different audio device",
+        "Restart the meeting app if settings don't help"
+      ],
+      "commands": [],
+      "relatedKB": ["zoom-audio-settings", "teams-audio-settings"]
+    },
+    "sol_turn_up_volume": {
+      "id": "sol_turn_up_volume",
+      "title": "Turn Up Volume",
+      "steps": [
+        "Your volume is turned down or muted",
+        "Check your computer's volume control",
+        "Check your speaker volume if using external speakers",
+        "Make sure your headphones are plugged in properly",
+        "Try pressing the volume up button on your keyboard"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_unmute_microphone": {
+      "id": "sol_unmute_microphone",
+      "title": "Unmute Your Microphone",
+      "steps": [
+        "You're muted in the meeting",
+        "Look for a microphone icon at the bottom of the meeting window",
+        "Click it to unmute yourself",
+        "Some apps use spacebar to temporarily unmute",
+        "Check if there's a red line through the microphone icon"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_others_camera_off": {
+      "id": "sol_others_camera_off",
+      "title": "Others Have Cameras Off",
+      "steps": [
+        "The other people in the meeting have their cameras turned off",
+        "This is normal - not everyone uses video",
+        "You should still be able to hear them",
+        "Ask if anyone can turn on their camera to verify"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_check_video_settings": {
+      "id": "sol_check_video_settings",
+      "title": "Check Video Settings",
+      "steps": [
+        "Click video settings in your meeting app",
+        "Make sure the correct camera is selected",
+        "Test your video using the built-in preview",
+        "Try selecting a different camera if you have multiple",
+        "Restart the meeting app if settings don't work"
+      ],
+      "commands": [],
+      "relatedKB": ["zoom-video-settings", "teams-video-settings"]
+    },
+    "sol_camera_permission_denied": {
+      "id": "sol_camera_permission_denied",
+      "title": "Camera Permission Denied",
+      "steps": [
+        "Your video app doesn't have permission to use your camera",
+        "On Mac: System Preferences > Security & Privacy > Camera",
+        "On Windows: Settings > Privacy > Camera",
+        "Enable permission for your meeting app",
+        "Restart the app after enabling permission"
+      ],
+      "commands": [],
+      "relatedKB": ["camera-permissions"]
+    },
+    "sol_bandwidth_video_call": {
+      "id": "sol_bandwidth_video_call",
+      "title": "Not Enough Bandwidth for Video",
+      "steps": [
+        "Your internet can't handle video calls right now",
+        "Ask others to pause streaming or downloads",
+        "Turn off your own video but keep audio on",
+        "Close other programs using the internet",
+        "Move closer to the WiFi router",
+        "Consider using phone audio if call quality is critical"
+      ],
+      "commands": [],
+      "relatedKB": ["video-call-bandwidth"]
+    },
+    "sol_microphone_not_working": {
+      "id": "sol_microphone_not_working",
+      "title": "Microphone Hardware Issue",
+      "steps": [
+        "Your microphone isn't working at all",
+        "Check if it's plugged in properly (if external)",
+        "Try a different USB port",
+        "Test with headphones that have a built-in mic",
+        "Check sound settings to ensure mic isn't disabled",
+        "Contact IT if your built-in microphone doesn't work"
+      ],
+      "commands": [],
+      "relatedKB": ["microphone-troubleshooting", "contact-it-support"]
+    },
+    "sol_camera_hardware_issue": {
+      "id": "sol_camera_hardware_issue",
+      "title": "Camera Hardware Problem",
+      "steps": [
+        "Your camera appears to have a hardware issue",
+        "Check if there's a physical camera privacy switch/cover",
+        "Try an external USB webcam as a workaround",
+        "Update your camera drivers",
+        "Contact IT support - your camera may need repair"
+      ],
+      "commands": [],
+      "relatedKB": ["webcam-not-working", "contact-it-support"]
+    },
+    "sol_disable_video_for_better_call": {
+      "id": "sol_disable_video_for_better_call",
+      "title": "Disable Video for Better Quality",
+      "steps": [
+        "Video is using too much bandwidth",
+        "Turn off your video to improve audio quality",
+        "Ask others to turn off video if call is still poor",
+        "Audio-only calls use much less bandwidth",
+        "Consider this for important calls with poor connection"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_internet_too_slow_calls": {
+      "id": "sol_internet_too_slow_calls",
+      "title": "Internet Too Slow for Video Calls",
+      "steps": [
+        "Your internet connection is too slow for reliable video calls",
+        "Minimum recommended: 3 Mbps for video calls",
+        "Consider upgrading your internet plan",
+        "Use a wired ethernet connection instead of WiFi",
+        "Close all other programs and browser tabs",
+        "As last resort, use phone audio and dial in"
+      ],
+      "commands": ["speedtest-cli"],
+      "relatedKB": ["internet-speed-requirements"]
+    },
+    "sol_connect_vpn_first": {
+      "id": "sol_connect_vpn_first",
+      "title": "Connect to VPN First",
+      "steps": [
+        "You need to be on VPN to access this resource",
+        "Connect to your company VPN before trying again",
+        "Internal files and drives require VPN when working remotely",
+        "If you don't have VPN set up, contact IT support"
+      ],
+      "commands": [],
+      "relatedKB": ["vpn-setup", "remote-access"]
+    },
+    "sol_permissions_changed": {
+      "id": "sol_permissions_changed",
+      "title": "File Permissions Changed",
+      "steps": [
+        "Your access permissions may have been changed",
+        "Contact the file/folder owner to request access",
+        "Contact IT if you should have access but don't",
+        "Your job role may have changed affecting access",
+        "Provide specific file path when contacting IT"
+      ],
+      "commands": [],
+      "relatedKB": ["file-permissions", "request-access"]
+    },
+    "sol_request_access": {
+      "id": "sol_request_access",
+      "title": "Request File Access",
+      "steps": [
+        "You don't currently have permission to access this",
+        "Contact the file owner and ask for access",
+        "Explain what you need to do with the files",
+        "Contact IT if you're not sure who the owner is",
+        "You may need manager approval for sensitive files"
+      ],
+      "commands": [],
+      "relatedKB": ["request-file-access"]
+    },
+    "sol_files_were_hidden": {
+      "id": "sol_files_were_hidden",
+      "title": "Files Were Hidden",
+      "steps": [
+        "The files were hidden",
+        "You can now see them with hidden files shown",
+        "To permanently show hidden files:",
+        "Windows: File Explorer > View > Show hidden files",
+        "Mac: Press Cmd+Shift+. in Finder"
+      ],
+      "commands": [],
+      "relatedKB": ["show-hidden-files"]
+    },
+    "sol_wrong_folder": {
+      "id": "sol_wrong_folder",
+      "title": "Wrong Folder or Path",
+      "steps": [
+        "You might be looking in the wrong location",
+        "Verify the correct folder path with someone who has access",
+        "Check if the files were moved to a different location",
+        "Use the search function to find the files",
+        "Contact the person who told you about the files"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_drive_remounted": {
+      "id": "sol_drive_remounted",
+      "title": "Network Drive Reconnected",
+      "steps": [
+        "Great! Reconnecting the drive fixed the issue",
+        "The connection just needed to be refreshed",
+        "If this happens frequently, let IT know"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_contact_it_shares": {
+      "id": "sol_contact_it_shares",
+      "title": "Contact IT for Shared Files Help",
+      "steps": [
+        "This is a more complex network share issue",
+        "Contact IT support with these details:",
+        "- What drive/folder you're trying to access",
+        "- Exact error message",
+        "- Whether you had access before",
+        "They may need to check server or permission settings"
+      ],
+      "commands": [],
+      "relatedKB": ["contact-it-support"]
+    },
+    "sol_reconnect_fixed": {
+      "id": "sol_reconnect_fixed",
+      "title": "Reconnecting Fixed the Issue",
+      "steps": [
+        "Great! Simply reconnecting fixed the problem",
+        "Sometimes network settings get stuck",
+        "If this happens regularly, let IT know"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_renew_ip": {
+      "id": "sol_renew_ip",
+      "title": "Renew IP Address",
+      "steps": [
+        "You need to get a new IP address from your router",
+        "Windows: Open Command Prompt and type these commands:",
+        "  ipconfig /release",
+        "  ipconfig /renew",
+        "Mac: Open Terminal and type:",
+        "  sudo ipconfig set en0 DHCP",
+        "Wait 30 seconds between commands",
+        "If this doesn't work, contact IT support"
+      ],
+      "commands": ["ipconfig /release", "ipconfig /renew", "sudo ipconfig set en0 DHCP"],
+      "relatedKB": ["renew-ip-address"]
+    },
+    "sol_contact_it_no_ip": {
+      "id": "sol_contact_it_no_ip",
+      "title": "Contact IT for IP Address Issue",
+      "steps": [
+        "You're not getting an IP address from the network",
+        "This might be a DHCP server issue",
+        "Contact IT support - they need to check the network",
+        "Mention you have 'no internet access' and tried reconnecting",
+        "This usually requires network administrator help"
+      ],
+      "commands": [],
+      "relatedKB": ["contact-it-support", "dhcp-issues"]
+    },
+    "sol_request_website_unblock": {
+      "id": "sol_request_website_unblock",
+      "title": "Request Website Unblock",
+      "steps": [
+        "This website is blocked by company security policy",
+        "If you need it for work, submit a request to IT:",
+        "- Explain why you need access",
+        "- Provide business justification",
+        "- Manager approval may be required",
+        "IT will review and may grant access if appropriate"
+      ],
+      "commands": [],
+      "relatedKB": ["request-website-access", "content-filtering"]
+    },
+    "sol_site_blocked_policy": {
+      "id": "sol_site_blocked_policy",
+      "title": "Site Blocked by Company Policy",
+      "steps": [
+        "This website is blocked by your company's internet policy",
+        "This is usually for security or productivity reasons",
+        "Common blocked categories: social media, gaming, adult content",
+        "If you need it for work, submit an unblock request to IT",
+        "Personal browsing should be done on personal devices/networks"
+      ],
+      "commands": [],
+      "relatedKB": ["acceptable-use-policy"]
+    },
+    "sol_certificate_warning": {
+      "id": "sol_certificate_warning",
+      "title": "Security Certificate Warning",
+      "steps": [
+        "The website's security certificate is invalid or expired",
+        "This could indicate a security risk",
+        "Do NOT proceed if this is a financial or sensitive site",
+        "For internal company sites, contact IT - certificate may need renewal",
+        "For public sites, they may be having temporary issues",
+        "Never enter passwords on sites with certificate errors"
+      ],
+      "commands": [],
+      "relatedKB": ["ssl-certificate-warnings"]
+    },
+    "sol_malicious_site_warning": {
+      "id": "sol_malicious_site_warning",
+      "title": "Malicious Site Warning",
+      "steps": [
+        "Your security software has flagged this site as dangerous",
+        "DO NOT proceed to this site",
+        "The site may contain malware, phishing, or scams",
+        "If you think this is a mistake, contact IT",
+        "Never disable security warnings to access a site",
+        "Report suspicious sites to IT security team"
+      ],
+      "commands": [],
+      "relatedKB": ["phishing-awareness", "malware-protection"]
+    },
+    "sol_caps_lock_on": {
+      "id": "sol_caps_lock_on",
+      "title": "Caps Lock is On",
+      "steps": [
+        "Your Caps Lock key is turned on",
+        "Press the Caps Lock key to turn it off",
+        "Passwords are case-sensitive",
+        "Look for a Caps Lock indicator light on your keyboard",
+        "Try logging in again with Caps Lock off"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_check_network_cable": {
+      "id": "sol_check_network_cable",
+      "title": "Check Network Connection",
+      "steps": [
+        "Your computer can't reach the company network",
+        "Check if your network cable is plugged in",
+        "Make sure you're connected to the company WiFi",
+        "Try connecting with ethernet cable if using WiFi",
+        "You may need to restart your computer",
+        "Contact IT if you still can't login"
+      ],
+      "commands": [],
+      "relatedKB": ["network-connectivity"]
+    },
+    "sol_password_expired": {
+      "id": "sol_password_expired",
+      "title": "Password May Be Expired",
+      "steps": [
+        "Your password might have expired",
+        "Most companies require password changes every 60-90 days",
+        "You should have received an expiration warning",
+        "Try the password reset process",
+        "Contact IT if you can't reset it yourself",
+        "Have your employee ID ready when calling IT"
+      ],
+      "commands": [],
+      "relatedKB": ["password-expiration", "password-reset"]
+    },
+    "sol_password_reset_needed": {
+      "id": "sol_password_reset_needed",
+      "title": "Password Reset Required",
+      "steps": [
+        "You need to reset your password",
+        "Use your company's self-service password reset tool if available",
+        "You'll usually need to answer security questions",
+        "Contact IT helpdesk if self-service doesn't work",
+        "Have your employee ID ready",
+        "Once reset, use new password everywhere (email, VPN, etc.)"
+      ],
+      "commands": [],
+      "relatedKB": ["password-reset", "contact-it-support"]
+    },
+    "sol_keyboard_not_working": {
+      "id": "sol_keyboard_not_working",
+      "title": "Keyboard Not Working",
+      "steps": [
+        "Your keyboard isn't responding",
+        "Check if it's plugged in (for wired keyboards)",
+        "Check batteries (for wireless keyboards)",
+        "Try a different USB port",
+        "Restart your computer",
+        "Try an on-screen keyboard to login temporarily",
+        "Contact IT for a replacement keyboard if needed"
+      ],
+      "commands": [],
+      "relatedKB": ["keyboard-troubleshooting"]
+    },
+    "sol_device_no_power": {
+      "id": "sol_device_no_power",
+      "title": "Network Device Has No Power",
+      "steps": [
+        "The device has no power",
+        "Check if it's plugged into a working outlet",
+        "Check if there's a power switch - make sure it's ON",
+        "Try a different power outlet",
+        "Check the power adapter/cable for damage",
+        "The device may have failed - contact IT for replacement"
+      ],
+      "commands": [],
+      "relatedKB": ["hardware-power-issues"]
+    },
+    "sol_device_error_state": {
+      "id": "sol_device_error_state",
+      "title": "Device in Error State",
+      "steps": [
+        "The device is showing error lights",
+        "Red or amber lights usually indicate a problem",
+        "Try restarting the device (unplug 30 seconds, replug)",
+        "Check if any cables are loose",
+        "Note the exact light pattern (blinking, solid, colors)",
+        "Contact IT with the light pattern information"
+      ],
+      "commands": [],
+      "relatedKB": ["network-device-lights", "contact-it-support"]
+    },
+    "sol_device_restart_fixed": {
+      "id": "sol_device_restart_fixed",
+      "title": "Device Fixed After Restart",
+      "steps": [
+        "Great! The device just needed a restart",
+        "Network devices can have temporary glitches",
+        "If this happens frequently, let IT know",
+        "The device may need firmware updates"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_contact_it_device_offline": {
+      "id": "sol_contact_it_device_offline",
+      "title": "Contact IT for Offline Device",
+      "steps": [
+        "The device isn't coming back online",
+        "This requires IT support to investigate",
+        "Provide these details when contacting IT:",
+        "- Device type and location",
+        "- Status of lights",
+        "- What you've tried",
+        "- How long it's been offline",
+        "They may need to physically check the device"
+      ],
+      "commands": [],
+      "relatedKB": ["contact-it-support"]
+    },
+    "sol_ip_conflict_resolved": {
+      "id": "sol_ip_conflict_resolved",
+      "title": "IP Conflict Resolved",
+      "steps": [
+        "Great! The IP conflict is resolved",
+        "Your device got a new IP address",
+        "This happens when two devices have the same IP",
+        "If it happens again, let IT know"
+      ],
+      "commands": [],
+      "relatedKB": []
+    },
+    "sol_static_ip_conflict": {
+      "id": "sol_static_ip_conflict",
+      "title": "Static IP Conflict",
+      "steps": [
+        "You have a persistent IP conflict",
+        "Someone may have manually set an IP address",
+        "This requires IT support to fix",
+        "Contact IT and mention 'IP address conflict'",
+        "They'll need to check your network settings",
+        "Do not manually change IP settings without IT approval"
+      ],
+      "commands": ["ipconfig /all"],
+      "relatedKB": ["contact-it-support", "ip-address-conflicts"]
+    }
+  }
+}
