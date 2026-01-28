@@ -1,0 +1,460 @@
+{
+  "articles": [
+    {
+      "id": "kb001",
+      "title": "The OSI Model - Complete Guide",
+      "category": "fundamentals",
+      "tags": ["osi", "layers", "networking model", "theory"],
+      "difficulty": "beginner",
+      "description": "Understanding the 7 layer OSI model that defines how networks communicate",
+      "content": {
+        "overview": "The OSI (Open Systems Interconnection) model is a conceptual framework that standardizes network communication into 7 distinct layers. Each layer has specific functions and communicates with the layers directly above and below it. Think of it like a factory assembly line - each layer adds something to the data as it moves down, and removes it as data moves up.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Layer 7: Application Layer: Where users interact. Protocols: HTTP, HTTPS, FTP, SMTP, DNS. This is what you see in your browser or email client. Example: When you type 'google.com', DNS (Application layer) translates it to an IP address.",
+          
+          "Layer 6: Presentation Layer: Data formatting and encryption. Handles data translation, compression, and encryption/decryption. Example: SSL/TLS encryption happens here. Converts data into formats applications can read (JPEG, GIF, ASCII).",
+          
+          "Layer 5: Session Layer: Manages connections between applications. Establishes, maintains, and terminates sessions. Example: When you login to a website, a session is created and maintained. Handles authentication and reconnection.",
+          
+          "Layer 4: Transport Layer: End-to-end communication and data flow control. Protocols: TCP (reliable) and UDP (fast). TCP breaks data into segments, numbers them, ensures they arrive in order, and retransmits lost segments. UDP just sends data without checking if it arrived. Example: Streaming video uses UDP (some loss is OK for speed). File downloads use TCP (must be perfect).",
+          
+          "Layer 3: Network Layer: Routing and logical addressing (IP addresses). Protocols: IP, ICMP, OSPF, BGP. Determines best path for data to travel across networks. Routers operate here. Example: When data goes from your home to google.com, Layer 3 figures out which routers to go through.",
+          
+          "Layer 2: Data Link Layer: Physical addressing (MAC addresses) and error detection. Protocols: Ethernet, WiFi (802.11), PPP. Switches operate here. Breaks packets into frames. Adds MAC addresses for local delivery. Example: Your computer talks to your router using MAC addresses, not IP addresses.",
+          
+          "Layer 1: Physical Layer: Raw bits over physical medium. Cables, radio waves, fiber optics, electrical signals. Converts 1s and 0s into physical signals. Hubs operate here. Example: Ethernet cable carrying electrical pulses, WiFi using radio waves.",
+          
+          "Mnemonic to remember: Please Do Not Throw Sausage Pizza Away (Physical, Data Link, Network, Transport, Session, Presentation, Application)",
+          
+          "How data flows: When you send an email, it starts at Layer 7 (application). Each layer adds a header with its information (called encapsulation). At Layer 1, it's transmitted as bits. The receiving computer reverses the process (de-encapsulation).",
+          
+          "Why it matters for troubleshooting: When diagnosing network issues, identify which layer is failing. Can't access website but can ping IP? Likely Layer 7 (DNS). Computer can't get IP address? Likely Layer 3 (DHCP). Physical cable unplugged? Layer 1."
+        ],
+        "prevention": [],
+        "relatedCommands": ["ping", "traceroute", "ipconfig", "netstat"]
+      }
+    },
+    {
+      "id": "kb002",
+      "title": "TCP/IP Protocol Suite Deep Dive",
+      "category": "fundamentals",
+      "tags": ["tcp", "ip", "protocols", "internet"],
+      "difficulty": "intermediate",
+      "description": "How TCP and IP work together to power the internet",
+      "content": {
+        "overview": "TCP/IP is the fundamental protocol suite that makes the internet work. It's actually a simplified 4-layer model compared to OSI: Application, Transport, Internet, and Network Access layers.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "IP (Internet Protocol): Handles addressing and routing. IPv4 uses 32-bit addresses (192.168.1.1). IPv6 uses 128-bit addresses (2001:0db8:85a3::8a2e:0370:7334). IP is connectionless - it just sends packets without checking if they arrive. Each packet is independent and may take different routes.",
+          
+          "TCP (Transmission Control Protocol): Connection-oriented protocol. Ensures reliable delivery through: 1) Three-way handshake to establish connection (SYN, SYN-ACK, ACK). 2) Sequence numbers to order packets. 3) Acknowledgments to confirm receipt. 4) Retransmission of lost packets. 5) Flow control to prevent overwhelming receiver. 6) Four-way handshake to close connection (FIN, ACK, FIN, ACK).",
+          
+          "Three-Way Handshake Explained: Computer A wants to connect to Server B. 1) A sends SYN (synchronise) - 'I want to connect'. 2) B sends SYN-ACK (synchronise-acknowledge) - 'OK, I'm ready'. 3) A sends ACK (acknowledge) - 'Great, let's start'. Now data can flow. This ensures both sides are ready.",
+          
+          "TCP vs UDP: TCP - Reliable, ordered, error-checked. Slower. Used for: web browsing, email, file transfer. UDP - Unreliable, unordered, no error-checking. Faster. Used for: video streaming, VoIP, online gaming, DNS queries. UDP is like shouting in a room - fast but you don't know who heard. TCP is like a phone call - slower but confirmed communication.",
+          
+          "Port Numbers: TCP and UDP use ports to identify specific applications. Well-known ports (0-1023): HTTP=80, HTTPS=443, SSH=22, FTP=21, SMTP=25, DNS=53. Registered ports (1024-49151): MySQL=3306, RDP=3389. Dynamic ports (49152-65535): Used temporarily by client applications.",
+          
+          "TCP Flags: SYN (start connection), ACK (acknowledge), FIN (finish connection), RST (reset/abort), PSH (push data immediately), URG (urgent data). Used in troubleshooting with Wireshark - seeing lots of RST flags means connections are being rejected.",
+          
+          "Packet Structure: IP Header (20-60 bytes) contains: source IP, destination IP, TTL (time to live), protocol type. TCP Header (20-60 bytes) contains: source port, dest port, sequence number, acknowledgment number, flags, window size (flow control). Then comes the actual data (payload).",
+          
+          "Practical Example: When you load google.com: 1) DNS query (UDP port 53) gets IP address. 2) TCP three-way handshake to web server (port 443 for HTTPS). 3) HTTP request sent over TCP connection. 4) Server sends webpage data in multiple TCP segments. 5) Your browser acknowledges each segment. 6) Connection closed with four-way handshake."
+        ],
+        "prevention": [],
+        "relatedCommands": ["netstat -an", "tcpdump", "wireshark"]
+      }
+    },
+    {
+      "id": "kb003",
+      "title": "IP Addressing and Subnetting Mastery",
+      "category": "fundamentals",
+      "tags": ["ip", "subnet", "cidr", "addressing"],
+      "difficulty": "intermediate",
+      "description": "Complete guide to IP addresses, subnet masks, and CIDR notation",
+      "content": {
+        "overview": "IP addressing is fundamental to networking. Every device needs a unique address. Subnetting divides networks into smaller segments for efficiency and security.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "IPv4 Address Structure: 32 bits divided into 4 octets. Example: 192.168.1.100. Each octet is 8 bits, ranges 0-255. Written in decimal but computers see binary: 11000000.10101000.00000001.01100100",
+          
+          "IP Address Classes (Legacy but still relevant): Class A: 1.0.0.0 to 126.255.255.255 (large networks, /8). Class B: 128.0.0.0 to 191.255.255.255 (medium networks, /16). Class C: 192.0.0.0 to 223.255.255.255 (small networks, /24). Class D: 224.0.0.0-239.255.255.255 (multicast). Class E: 240.0.0.0-255.255.255.255 (experimental).",
+          
+          "Private IP Ranges (RFC 1918): 10.0.0.0 to 10.255.255.255 (16 million addresses, /8). 172.16.0.0 to 172.31.255.255 (1 million addresses, /12). 192.168.0.0 to 192.168.255.255 (65,536 addresses, /16). These are NOT routable on the internet - used internally. NAT translates private to public IPs.",
+          
+          "Special Addresses: 127.0.0.1 - localhost (your own computer). 0.0.0.0 - any address or no address. 255.255.255.255 - broadcast to all devices on local network. 169.254.x.x - APIPA (automatic when DHCP fails).",
+          
+          "Subnet Mask: Defines which part of IP is network and which is host. Example: 255.255.255.0 means first 3 octets are network, last octet is hosts. In binary: 11111111.11111111.11111111.00000000. Consecutive 1s define network, 0s define hosts.",
+          
+          "CIDR Notation: Shorthand for subnet masks. /24 means first 24 bits are network. /24 = 255.255.255.0 (256 addresses, 254 usable). /25 = 255.255.255.128 (128 addresses, 126 usable). /26 = 255.255.255.192 (64 addresses, 62 usable). /30 = 255.255.255.252 (4 addresses, 2 usable - for point-to-point links).",
+          
+          "Calculating Usable Hosts: Formula: 2^(host bits) - 2. Subtract 2 for network address and broadcast address. Example: /24 has 8 host bits. 2^8 = 256. 256-2 = 254 usable addresses. Network address: 192.168.1.0 (all host bits are 0). Broadcast address: 192.168.1.255 (all host bits are 1). Usable range: 192.168.1.1 to 192.168.1.254.",
+          
+          "Subnetting Example: You have 192.168.1.0/24 and need to create 4 subnets. Need 2 bits for 4 subnets (2^2=4). New mask: /26 (24+2). Each subnet has 64 addresses (2^6). Subnet 1: 192.168.1.0/26 (usable: .1-.62). Subnet 2: 192.168.1.64/26 (usable: .65-.126). Subnet 3: 192.168.1.128/26 (usable: .129-.190). Subnet 4: 192.168.1.192/26 (usable: .193-.254).",
+          
+          "VLSM (Variable Length Subnet Masks): Using different subnet sizes for efficiency. Example: Sales needs 50 IPs, IT needs 10 IPs, Point-to-point link needs 2 IPs. Allocate: Sales: /26 (62 usable). IT: /28 (14 usable). Link: /30 (2 usable). This maximises IP usage.",
+          
+          "Practical Troubleshooting: If devices have IPs on different subnets, they can't communicate directly (need router). If subnet mask is wrong, device thinks it's on different network. Use 'ipconfig /all' to see IP, subnet mask, and gateway."
+        ],
+        "prevention": [],
+        "relatedCommands": ["ipconfig /all", "ipcalc", "sipcalc"]
+      }
+    },
+    {
+      "id": "kb004",
+      "title": "Routing Fundamentals - How Data Finds Its Way",
+      "category": "fundamentals",
+      "tags": ["routing", "router", "ospf", "bgp", "gateway"],
+      "difficulty": "intermediate",
+      "description": "Understanding how routers direct traffic across networks",
+      "content": {
+        "overview": "Routing is the process of selecting paths in a network to send data. Routers use routing tables to determine the best path for each packet.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "What Routers Do: Connect different networks. Make forwarding decisions based on Layer 3 (IP) addresses. Maintain routing tables. Determine best path using metrics. Example: Your home router connects your local network (192.168.1.0/24) to the internet.",
+          
+          "Routing Table Components: Destination network (where packet is going). Subnet mask (how specific the route is). Next hop/gateway (where to send packet next). Interface (which router port to use). Metric (cost/distance to destination). Example entry: 192.168.2.0/24 via 10.0.0.1 metric 10.",
+          
+          "Default Gateway: The router address devices use to reach outside networks. Usually first or last IP in subnet. Example: 192.168.1.1 for 192.168.1.0/24 network. If destination isn't on local network, send to default gateway. Set on each device either manually or via DHCP.",
+          
+          "Static vs Dynamic Routing: Static - manually configured by admin. Doesn't change. Used for small networks or specific routes. Pros: predictable, low overhead. Cons: doesn't adapt to failures. Dynamic - routers share information automatically. Adapts to network changes. Protocols: OSPF, EIGRP, BGP. Pros: scalable, fault-tolerant. Cons: complex, uses bandwidth.",
+          
+          "Routing Metrics: How routers choose best path. Hop count - fewest routers (RIP uses this). Bandwidth - highest speed link (OSPF). Delay - lowest latency. Load - least congested path. Reliability - most stable path. Cost - combined metric (OSPF uses this).",
+          
+          "Administrative Distance: Trustworthiness of routing source. Lower is better. Connected interface = 0 (most trusted). Static route = 1. EIGRP = 90. OSPF = 110. RIP = 120. External EIGRP = 170. If multiple routes exist, lowest AD wins.",
+          
+          "Common Routing Protocols: RIP (Routing Information Protocol) - old, simple, uses hop count, max 15 hops, slow convergence. OSPF (Open Shortest Path First) - link-state, fast convergence, uses cost based on bandwidth, hierarchical with areas. EIGRP (Enhanced Interior Gateway Routing Protocol) - Cisco proprietary, very fast convergence, uses bandwidth/delay/load. BGP (Border Gateway Protocol) - internet routing, AS to AS, path vector protocol.",
+          
+          "How OSPF Works: Each router discovers neighbors. Routers flood link-state advertisements (LSAs) to all neighbors. Each router builds topology database of entire network. Runs SPF algorithm to calculate best paths. Converges quickly when changes occur. Uses areas to scale - Area 0 (backbone), other areas connect to Area 0.",
+          
+          "Routing Loop Prevention: TTL (Time to Live) - decremented at each hop, packet dropped at 0. Split horizon - don't advertise route back to source. Route poisoning - advertise failed routes as unreachable. Holddown timers - wait before accepting new route for failed network.",
+          
+          "Practical Example: You're at 192.168.1.100, trying to reach google.com (172.217.164.46). Your routing table has default route 0.0.0.0/0 via 192.168.1.1. Packet goes to router at .1. That router has route to ISP. ISP router has route to Google's network. Multiple routers forward packet based on their routing tables. Reply follows reverse path (may be different)."
+        ],
+        "prevention": [],
+        "relatedCommands": ["route print", "netstat -r", "traceroute", "tracert"]
+      }
+    },
+    {
+      "id": "kb005",
+      "title": "Switching and VLANs Complete Guide",
+      "category": "fundamentals",
+      "tags": ["switch", "vlan", "layer 2", "mac address"],
+      "difficulty": "intermediate",
+      "description": "How switches forward traffic and VLANs segment networks",
+      "content": {
+        "overview": "Switches operate at Layer 2, using MAC addresses to forward frames within a network. VLANs allow logical segmentation of a physical network.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Switch vs Hub vs Router: Hub - broadcasts to all ports (Layer 1), dumb device, creates collisions. Switch - forwards to specific port based on MAC address (Layer 2), intelligent. Router - forwards between different networks using IP addresses (Layer 3). Modern networks use switches, not hubs.",
+          
+          "MAC Address: 48-bit physical address burned into network card. Format: AA:BB:CC:DD:EE:FF (hexadecimal). First 24 bits = OUI (manufacturer). Last 24 bits = unique device ID. Example: 00:1A:2B:3C:4D:5E. First byte tells if address is unicast/multicast, locally/globally administered.",
+          
+          "How Switches Learn: Initially, MAC address table is empty. When frame arrives on port 1 from MAC address AA:AA:AA:AA:AA:AA, switch records: 'MAC AA:AA is on port 1'. If destination MAC is unknown, switch floods frame to all ports except source port. When destination replies, switch learns its MAC and port. Now switch can forward directly without flooding. Table entries age out after 300 seconds of inactivity (default).",
+          
+          "Switch Forwarding Decisions: Known unicast - forward to specific port. Unknown unicast - flood to all ports except source. Broadcast (FF:FF:FF:FF:FF:FF) - flood to all ports. Multicast - forward to registered ports or flood.",
+          
+          "VLANs (Virtual LANs): Logically separate a physical network. Devices in different VLANs can't communicate without a router (Layer 3 device). Benefits: Security (segment sensitive data). Performance (reduce broadcast domains). Organisation (group by department, not location). Flexibility (change VLANs without moving cables).",
+          
+          "VLAN Types: Data VLAN - normal user traffic. Voice VLAN - prioritised for VoIP phones. Management VLAN - for managing switches/routers. Native VLAN - untagged traffic on trunk (usually VLAN 1). Default VLAN - all ports start in VLAN 1.",
+          
+          "Access Ports vs Trunk Ports: Access port - belongs to single VLAN, connects end devices (PCs, printers). Untagged. Trunk port - carries multiple VLANs, connects switches together. Tagged with VLAN ID (802.1Q). Example: Port 1-20 = access ports in VLAN 10. Port 24 = trunk port carrying VLANs 10, 20, 30.",
+          
+          "802.1Q Tagging: Standard for VLAN tagging. Inserts 4-byte tag into Ethernet frame. Tag contains: VLAN ID (12 bits, 4096 VLANs possible). Priority (3 bits for QoS). Native VLAN traffic is not tagged. All other VLANs on trunk are tagged.",
+          
+          "Inter-VLAN Routing: Devices on different VLANs need router to communicate. Traditional - physical interface per VLAN (doesn't scale). Router-on-a-stick - single physical interface with sub-interfaces, one per VLAN. Layer 3 switch - routing built into switch (best performance).",
+          
+          "Spanning Tree Protocol (STP): Prevents Layer 2 loops in redundant networks. Loops cause broadcast storms that crash network. STP blocks redundant paths, activates them only if primary fails. Root bridge - switch with lowest bridge ID (priority + MAC). Root port - port with best path to root bridge. Designated port - best port on segment. Blocked port - redundant path blocked by STP. Port states: Blocking → Listening → Learning → Forwarding (takes 30-50 seconds).",
+          
+          "VLAN Configuration Example: VLAN 10 - Sales (192.168.10.0/24). VLAN 20 - IT (192.168.20.0/24). VLAN 30 - Guest WiFi (192.168.30.0/24). Ports 1-8 in VLAN 10. Ports 9-16 in VLAN 20. Ports 17-20 in VLAN 30. Port 24 trunk to router for inter-VLAN routing.",
+          
+          "Common Issues: Wrong VLAN assignment - device can't communicate. Native VLAN mismatch - drops traffic on trunk. Duplex mismatch - auto negotiation fails, poor performance. Broadcast storm - STP disabled or misconfigured. MAC address table overflow - security attack or too many devices."
+        ],
+        "prevention": [],
+        "relatedCommands": ["arp -a", "show mac address-table", "show vlan"]
+      }
+    },
+    {
+      "id": "kb006",
+      "title": "Wireless Networking (802.11) Deep Dive",
+      "category": "wireless",
+      "tags": ["wifi", "wireless", "802.11", "access point"],
+      "difficulty": "intermediate",
+      "description": "Understanding WiFi standards, frequencies, and troubleshooting",
+      "content": {
+        "overview": "Wireless networking uses radio waves to transmit data. Understanding WiFi standards, frequencies, channels, and security is crucial for Cisco Meraki support.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "WiFi Standards (802.11): 802.11b (1999) - 2.4GHz, 11 Mbps, legacy. 802.11a (1999) - 5GHz, 54 Mbps, less interference. 802.11g (2003) - 2.4GHz, 54 Mbps, backward compatible with b. 802.11n/WiFi 4 (2009) - 2.4/5GHz, 600 Mbps, MIMO. 802.11ac/WiFi 5 (2013) - 5GHz, 3.5 Gbps, MU-MIMO. 802.11ax/WiFi 6 (2019) - 2.4/5GHz, 9.6 Gbps, OFDMA, better density. 802.11ax/WiFi 6E (2020) - adds 6GHz band.",
+          
+          "Frequency Bands: 2.4GHz - longer range, penetrates walls better, more interference (microwave, Bluetooth), only 3 non-overlapping channels (1, 6, 11), crowded in urban areas. 5GHz - shorter range, less interference, 24 non-overlapping channels, faster speeds, doesn't penetrate walls as well. 6GHz (WiFi 6E) - brand new, no legacy devices, very clean spectrum, shortest range.",
+          
+          "WiFi Channels: 2.4GHz has 11-14 channels (region dependent), but only 3 don't overlap. Channel 1 (2.412 GHz). Channel 6 (2.437 GHz). Channel 11 (2.462 GHz). Using overlapping channels (like 1 and 2) causes interference. 5GHz has 24 non-overlapping 20MHz channels. Can bond channels for higher speeds (40MHz, 80MHz, 160MHz) but uses more spectrum.",
+          
+          "SSID (Service Set Identifier): Network name broadcasted by AP. Can be hidden (but still findable, not secure). Multiple SSIDs on single AP (different VLANs). BSSID - MAC address of AP. ESSID - network spanning multiple APs.",
+          
+          "MIMO and MU-MIMO: MIMO (Multiple Input Multiple Output) - multiple antennas transmit/receive simultaneously. Increases throughput and reliability. Spatial streams - independent data streams. MU-MIMO (Multi-User MIMO) - AP serves multiple clients simultaneously instead of taking turns. Downlink MU-MIMO (WiFi 5). Uplink MU-MIMO (WiFi 6).",
+          
+          "WiFi Security: WEP (Wired Equivalent Privacy) - broken, never use. WPA (WiFi Protected Access) - better than WEP, but deprecated. WPA2 - current standard, uses AES encryption. WPA2-Personal (PSK) - pre-shared key, for home/small office. WPA2-Enterprise - RADIUS server, per-user authentication, for businesses. WPA3 - latest, better encryption, protects against brute force. WPA3-Personal uses SAE (Simultaneous Authentication of Equals). WPA3-Enterprise uses 192-bit encryption.",
+          
+          "Roaming: Client moves between APs while maintaining connection. Fast roaming standards: 802.11r (fast transition). 802.11k (neighbor reports). 802.11v (BSS transition). Seamless roaming requires proper AP placement and signal overlap.",
+          
+          "Signal Strength and Coverage: RSSI (Received Signal Strength Indicator) - measured in dBm (negative numbers). -30 dBm = excellent (very close). -50 dBm = excellent. -60 dBm = good. -70 dBm = fair. -80 dBm = poor. -90 dBm = unusable. Every 3dB = double/half the power. Walls, metal, and distance reduce signal.",
+          
+          "Common Interference Sources: 2.4GHz - microwaves, Bluetooth, cordless phones, baby monitors, other WiFi networks. 5GHz - radar (DFS channels), other WiFi. Physical - metal, water, concrete, mirrors. Solution: Use 5GHz when possible, choose less-congested channels, proper AP placement.",
+          
+          "Wireless Survey: Heat map of signal coverage. Identifies dead zones and interference. Tools: Ekahau, NetSpot. Measures RSSI, SNR (signal-to-noise ratio), channel utilisation. Plan AP placement for 20-30% overlap between APs.",
+          
+          "Common WiFi Issues: Weak signal - move AP or add more APs. Interference - change channels or switch to 5GHz. Too many clients on one AP - add more APs, use band steering. Authentication failures - check security settings and passwords. DHCP issues - client gets IP but no gateway. Roaming problems - configure fast roaming, adjust power levels."
+        ],
+        "prevention": [],
+        "relatedCommands": ["netsh wlan show networks", "iwconfig", "airport -I", "wifi scanner"]
+      }
+    },
+    {
+      "id": "kb007",
+      "title": "Wireshark and Packet Analysis Guide",
+      "category": "advanced",
+      "tags": ["wireshark", "packet capture", "pcap", "analysis"],
+      "difficulty": "advanced",
+      "description": "Using Wireshark to capture and analyse network traffic",
+      "content": {
+        "overview": "Wireshark is the industry-standard packet analyser. It captures and displays network traffic in detail. Essential for troubleshooting complex issues.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "What Wireshark Shows: Every packet on the network. Source and destination IP/MAC addresses. Protocols being used. Packet contents (if not encrypted). Timing and sequence information. Errors and retransmissions.",
+          
+          "Capture Filters: Applied before capturing (more efficient). Syntax: 'host 192.168.1.1' - traffic to/from specific IP. 'port 80' - HTTP traffic. 'tcp' or 'udp' - specific protocol. 'net 192.168.1.0/24' - entire subnet. 'not port 22' - exclude SSH. Combine: 'host 192.168.1.1 and port 80'.",
+          
+          "Display Filters: Applied after capturing (more flexible). Examples: 'ip.addr == 192.168.1.1' - specific IP. 'tcp.port == 443' - HTTPS. 'http.request' - only HTTP requests. 'dns' - DNS traffic. 'tcp.flags.reset == 1' - TCP resets. 'frame.time_relative < 10' - first 10 seconds. 'ip.addr == 192.168.1.1 && tcp.port == 80' - combine filters.",
+          
+          "Three-Way Handshake in Wireshark: Look for these three packets: 1) SYN (flags: 0x002). 2) SYN-ACK (flags: 0x012). 3) ACK (flags: 0x010). If you see SYN repeatedly without SYN-ACK, server isn't responding. If you see SYN, SYN-ACK, then RST, client rejected connection.",
+          
+          "Analyzing HTTP Traffic: Filter: 'http'. Look for GET requests (client requesting page). Follow HTTP stream (right-click → Follow → HTTP Stream) to see entire conversation. Check response codes: 200 = OK, 404 = Not Found, 500 = Server Error. See cookies, user-agent, referrers. Note: HTTPS is encrypted, can't see content (only see encrypted packets).",
+          
+          "DNS Troubleshooting: Filter: 'dns'. Look for queries (questions) and responses. Check query type: A (IPv4), AAAA (IPv6), MX (mail), CNAME (alias). Look for response codes: NOERROR = success. NXDOMAIN = domain doesn't exist. SERVFAIL = DNS server error. Check response time - slow responses indicate DNS issues.",
+          
+          "TCP Problems: Retransmissions - duplicate packets mean packet loss. Filter: 'tcp.analysis.retransmission'. Zero Window - receiver buffer full, sender must wait. RST (reset) packets - connection aborted. Filter: 'tcp.flags.reset == 1'. Out-of-Order packets - network routing issues. SYN flood - many SYNs without completing handshake (possible attack).",
+          
+          "ARP Analysis: Filter: 'arp'. ARP request - 'Who has 192.168.1.1? Tell 192.168.1.100'. ARP reply - '192.168.1.1 is at AA:BB:CC:DD:EE:FF'. Duplicate ARP replies - IP conflict. ARP spoofing - attacker pretending to be another device.",
+          
+          "Following Streams: Right-click packet → Follow → TCP/UDP/HTTP Stream. Shows entire conversation in one window. Useful for reading plaintext protocols (HTTP, FTP, Telnet). Can save stream content. Color coding - red = server to client, blue = client to server.",
+          
+          "Statistics and Analysis: Statistics → Protocol Hierarchy - see all protocols in capture. Statistics → Conversations - see who's talking to whom. Statistics → IO Graph - visualise traffic over time. Analyse → Expert Information - Wireshark's automatic analysis of problems.",
+          
+          "Common Scenarios: Slow website - look for high latency between request/response, many retransmissions. Can't connect - no SYN-ACK response, or RST packets. Wrong DNS - query returns wrong IP. Network loop - same packet repeated many times. Security issues - unencrypted passwords in clear text."
+        ],
+        "prevention": [],
+        "relatedCommands": ["tshark", "tcpdump", "wireshark"]
+      }
+    },
+    {
+      "id": "kb008",
+      "title": "DHCP - Dynamic Host Configuration Protocol",
+      "category": "fundamentals",
+      "tags": ["dhcp", "ip assignment", "automatic configuration"],
+      "difficulty": "beginner",
+      "description": "How devices automatically get IP addresses",
+      "content": {
+        "overview": "DHCP automatically assigns IP addresses and network configuration to devices. Without DHCP, every device would need manual configuration.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "DHCP Four-Step Process (DORA): Discover - client broadcasts 'I need an IP address!' (destination 255.255.255.255). Offer - DHCP server offers available IP address. Request - client requests offered IP. Acknowledge - server confirms assignment. All this happens in seconds when you connect to network.",
+          
+          "What DHCP Provides: IP address - unique identifier. Subnet mask - defines network size. Default gateway - router to reach other networks. DNS servers - for name resolution. Lease time - how long IP is valid. Optional: NTP server, TFTP server, domain name.",
+          
+          "DHCP Lease Process: Client gets IP with lease time (usually 24 hours). At 50% of lease time (12 hours), client tries to renew with same server. At 87.5% (21 hours), client tries any DHCP server if original didn't respond. At 100% (24 hours), client must release IP and start DORA again. Lease renewal is unicast (direct to server), not broadcast.",
+          
+          "IP Address Pools and Reservations: Pool (scope) - range of IPs DHCP can assign (e.g., 192.168.1.100 - 192.168.1.200). Exclusions - IPs not to assign (for servers, printers). Reservations - specific IP for specific MAC address. Always receives same IP. Used for servers, printers, access points.",
+          
+          "DHCP Relay (IP Helper): DHCP uses broadcasts, which don't cross routers. DHCP Relay/IP Helper forwards DHCP requests to server on different subnet. Router converts broadcast to unicast to DHCP server. Allows centralised DHCP server for multiple subnets. Configure on router interface facing clients.",
+          
+          "APIPA (Automatic Private IP Addressing): When DHCP fails, Windows assigns 169.254.x.x address. Allows local network communication but no internet. Indicates DHCP server unreachable or no more IPs available. Solution: fix DHCP server, expand IP pool, or check network connectivity.",
+          
+          "DHCP Options: Option 3 - Default Router (gateway). Option 6 - DNS Server. Option 15 - Domain Name. Option 42 - NTP Server. Option 66 - TFTP Server (for VoIP phones). Option 82 - DHCP Relay information. Option 121 - Classless Static Routes.",
+          
+          "DHCP Snooping: Security feature on switches. Prevents rogue DHCP servers. Trusted ports - allow DHCP offers (port connected to real DHCP server). Untrusted ports - drop DHCP offers (client ports). Builds database of IP-to-MAC mappings. Prevents IP spoofing and DHCP attacks.",
+          
+          "Common DHCP Problems: No IP assigned - DHCP server down, no more IPs in pool, client on wrong VLAN. Wrong IP range - DHCP server misconfigured. 169.254.x.x address - can't reach DHCP server. IP conflict - DHCP assigned IP that's statically configured elsewhere. Slow address assignment - DHCP server overloaded or relay misconfigured.",
+          
+          "Troubleshooting Steps: Release current IP: 'ipconfig /release' (Windows) or 'sudo dhclient -r' (Linux). Request new IP: 'ipconfig /renew' (Windows) or 'sudo dhclient' (Linux). Check DHCP server logs. Verify DHCP relay configuration. Check if IP pool is exhausted. Verify client can reach DHCP server (test with different device)."
+        ],
+        "prevention": [],
+        "relatedCommands": ["ipconfig /all", "ipconfig /release", "ipconfig /renew", "dhclient"]
+      }
+    },
+    {
+      "id": "kb009",
+      "title": "NAT and PAT - Network Address Translation",
+      "category": "fundamentals",
+      "tags": ["nat", "pat", "port forwarding", "private ip"],
+      "difficulty": "intermediate",
+      "description": "How routers translate private IPs to public IPs",
+      "content": {
+        "overview": "NAT allows multiple devices with private IPs to share a single public IP address. This solved the IPv4 address shortage and adds security.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Why NAT Exists: IPv4 has only 4.3 billion addresses. Not enough for every device globally. Private IPs (10.x.x.x, 172.16-31.x.x, 192.168.x.x) are not routable on internet. NAT translates private to public IPs. Allows thousands of private IPs to share one public IP.",
+          
+          "How NAT Works: Your computer (192.168.1.100) sends packet to google.com. Packet arrives at router with source IP 192.168.1.100. Router replaces source IP with its public IP (e.g., 203.0.113.5). Router tracks this in NAT table. Reply from Google arrives at router's public IP. Router looks up NAT table, translates back to 192.168.1.100. Forwards packet to your computer.",
+          
+          "Static NAT: One-to-one mapping. Private IP always translates to same public IP. Example: internal server 192.168.1.10 always uses public IP 203.0.113.10. Used for servers that need consistent public IP. Requires one public IP per internal host (doesn't conserve addresses).",
+          
+          "Dynamic NAT: Many-to-many mapping. Pool of public IPs assigned as needed. Example: 100 internal hosts share pool of 10 public IPs. First 10 internal hosts get public IPs. 11th host must wait for one to free up. Rare in practice - PAT is more common.",
+          
+          "PAT (Port Address Translation) / NAT Overload: Many-to-one mapping using port numbers. Most common type of NAT in home/office routers. All internal hosts share ONE public IP. Router uses source ports to distinguish connections. Example: PC1 (192.168.1.100:50000) and PC2 (192.168.1.101:50001) both translate to 203.0.113.5 with different ports (50000, 50001). Router tracks source IP+port pairs. Thousands of devices can share one public IP.",
+          
+          "NAT Table Example: Inside Local (private IP:port) | Inside Global (public IP:port) | Outside Address. 192.168.1.100:50000 | 203.0.113.5:50000 | 172.217.164.46:443. 192.168.1.101:50001 | 203.0.113.5:50001 | 172.217.164.46:443. Router uses this table to translate in both directions.",
+          
+          "Port Forwarding: Allows external access to internal services. Maps external port to internal IP:port. Example: External 203.0.113.5:80 → Internal 192.168.1.10:80 (web server). Incoming connections to router's port 80 forwarded to internal server. Required for hosting services (web, game servers, cameras). Security risk - only open necessary ports.",
+          
+          "NAT Terminology: Inside Local - private IP before NAT. Inside Global - public IP after NAT. Outside Local - destination IP seen from inside. Outside Global - actual destination IP. NAT direction: Inside → Outside (client initiating). Outside → Inside (server responding, or port forwarding).",
+          
+          "NAT Limitations: Breaks end-to-end connectivity principle. Some protocols don't work well (FTP active mode, SIP, IPSec). Complicates troubleshooting (IP changes at router). Can't host services without port forwarding. Increases router processing load. Solution for some issues: ALG (Application Layer Gateway) or VPN.",
+          
+          "NAT and IPv6: IPv6 has enough addresses for every device. No need for NAT. Each device has globally unique address. Privacy concerns led to IPv6 privacy extensions (temporary addresses). Some argue for NAT-like functionality in IPv6 for security, but firewalls are preferred solution."
+        ],
+        "prevention": [],
+        "relatedCommands": ["netstat -ano", "show ip nat translations"]
+      }
+    },
+    {
+      "id": "kb010",
+      "title": "Network Troubleshooting Methodology",
+      "category": "troubleshooting",
+      "tags": ["troubleshooting", "methodology", "systematic approach"],
+      "difficulty": "intermediate",
+      "description": "Systematic approach to diagnosing and fixing network issues",
+      "content": {
+        "overview": "Effective troubleshooting follows a systematic methodology. Don't randomly try fixes - use a structured approach to identify root cause.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Step 1 - Identify the Problem: Gather information from user. What exactly isn't working? When did it start? What changed recently? Is it affecting one user or many? Document symptoms clearly. Don't assume - ask questions.",
+          
+          "Step 2 - Establish a Theory: Based on symptoms, form hypotheses. Use OSI model bottom-up or top-down. Bottom-up: Start at Physical layer, work up. Good when problem is likely connectivity. Top-down: Start at Application layer, work down. Good when specific application fails. Divide-and-conquer: Test middle layer (Transport), then go up or down.",
+          
+          "Step 3 - Test Your Theory: Design tests to prove/disprove hypothesis. Use appropriate tools: ping, traceroute, nslookup, ipconfig. One change at a time. Document what you test and results. If theory is wrong, form new theory.",
+          
+          "Step 4 - Establish Plan of Action: Once root cause identified, plan fix. Consider: Will this affect other users? Do I need change control approval? Do I need backup/rollback plan? What's the time estimate? Communicate plan to stakeholders.",
+          
+          "Step 5 - Implement Solution: Execute fix carefully. Have rollback plan ready. Monitor during implementation. Document steps taken. If fix doesn't work, rollback and reassess.",
+          
+          "Step 6 - Verify Functionality: Test that problem is actually fixed. Verify with affected user. Check for side effects. Run comprehensive tests. Don't assume it worked - verify.",
+          
+          "Step 7 - Document: Record problem, cause, and solution. Update knowledge base. Note what tests were performed. Helps with similar future issues. Documentation is often skipped but very important.",
+          
+          "Common Troubleshooting Tests: ping - tests Layer 3 connectivity. traceroute - shows path packets take. nslookup/dig - tests DNS resolution. ipconfig/ifconfig - shows network configuration. netstat - shows active connections. arp -a - shows MAC address table. pathping/mtr - combines ping and traceroute. wireshark - deep packet inspection.",
+          
+          "Using Ping Effectively: ping 127.0.0.1 - tests TCP/IP stack (should always work). ping default gateway - tests local network connectivity. ping known external IP (8.8.8.8) - tests internet connectivity without DNS. ping domain name - tests internet + DNS. ping statistics show packet loss and latency.",
+          
+          "The '5 Whys' Technique: Ask 'why' 5 times to find root cause. Problem: Users can't access email. Why? Email server is down. Why? Ran out of disk space. Why? Log files filled disk. Why? Log rotation not configured. Why? New server setup missed this step. Root cause: incomplete server setup procedure.",
+          
+          "Common Mistakes to Avoid: Making multiple changes at once (can't tell what fixed it). Not documenting what you tried. Assuming the first theory is correct. Not verifying the fix. Forgetting to check the simple things first (cable unplugged?). Not asking user to reproduce the issue.",
+          
+          "Escalation Guidelines: Escalate when: Problem exceeds your authority/expertise. Needs vendor support. Impacts critical systems. Can't identify cause after reasonable time. Customer specifically requests escalation. Always provide: Clear problem description. What was tested. Current status. Relevant logs/outputs."
+        ],
+        "prevention": [],
+        "relatedCommands": ["ping", "traceroute", "nslookup", "ipconfig"]
+      }
+    },
+    {
+      "id": "kb011",
+      "title": "Cisco Meraki Dashboard and Cloud Management",
+      "category": "advanced",
+      "tags": ["meraki", "dashboard", "cloud", "cisco"],
+      "difficulty": "intermediate",
+      "description": "Understanding Meraki's cloud-managed architecture",
+      "content": {
+        "overview": "Cisco Meraki uses cloud-based management instead of on-premises controllers. All configuration happens through web dashboard. Understanding this architecture is key for support role.",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Meraki Architecture: All devices (APs, switches, security appliances) connect to Meraki cloud. Dashboard is web-based (dashboard.meraki.com). Configuration stored in cloud. Devices check in regularly for updates. Local forwarding for data - internet traffic doesn't go through cloud. Only management traffic goes to cloud.",
+          
+          "Device Types: MR (Meraki Wireless) - Access Points for WiFi. MS (Meraki Switch) - Switches for wired networking. MX (Meraki Security Appliance) - Firewall, VPN, SD-WAN. MV (Meraki Camera) - Security cameras. Systems Manager - MDM for mobile devices. Each has specific capabilities and configuration.",
+          
+          "Dashboard Organisation: Organisations - top level container. Networks - group of devices at a location. Can have multiple networks per org. Templates - reusable configurations. Tags - for grouping devices. Admins - users with access, different permission levels.",
+          
+          "Wireless (MR) Features: Auto RF - automatically optimises channel and power. Seamless roaming - clients move between APs smoothly. SSID per VLAN - multiple networks on same AP. Splash pages - captive portals for guest access. Air Marshal - rogue AP detection. Location Analytics - track client movement.",
+          
+          "Switch (MS) Features: Auto-config - minimal setup required. PoE - power over Ethernet for APs, phones, cameras. Layer 3 routing - in higher-end models. Port scheduling - disable ports on schedule. Port mirroring - for packet capture. 802.1X authentication - port-based network access control.",
+          
+          "Security Appliance (MX) Features: Stateful firewall - Layer 3-7 filtering. Content filtering - block categories of websites. IDS/IPS - intrusion detection/prevention. Auto VPN - easy site-to-site VPN. Client VPN - remote access. SD-WAN - intelligent path selection. Traffic shaping - QoS policies.",
+          
+          "Troubleshooting Dashboard: Device shows offline - check internet connection, cloud connectivity. Can't apply changes - check for conflicting settings. Slow dashboard - browser cache, try different browser. Can't login - check admin permissions, organisation access. Device not claiming - check licensing, network connectivity.",
+          
+          "Common Support Scenarios: User can't connect to WiFi - check SSID settings, security type, VLAN assignment. Slow internet - check traffic shaping, bandwidth limits, application usage. VPN not working - check routes, firewall rules, pre-shared keys. Devices offline - check uplink status, cloud connectivity. Port not working - check port configuration, PoE budget, cable."
+        ],
+        "prevention": [],
+        "relatedCommands": []
+      }
+    },
+    {
+      "id": "kb012",
+      "title": "QoS - Quality of Service Fundamentals",
+      "category": "advanced",
+      "tags": ["qos", "traffic shaping", "prioritisation"],
+      "difficulty": "advanced",
+      "description": "Prioritising network traffic for better performance",
+      "content": {
+        "overview": "QoS (Quality of Service) prioritises important traffic during congestion. Without QoS, all traffic treated equally. With QoS, critical apps (voice, video) get priority over others (downloads, updates).",
+        "symptoms": [],
+        "causes": [],
+        "solutions": [
+          "Why QoS Matters: Limited bandwidth is shared by all applications. VoIP and video are sensitive to delay and packet loss. File downloads can tolerate delays. Without QoS, large download can make VoIP call choppy. QoS ensures critical apps perform well even during congestion.",
+          
+          "QoS Mechanisms: Classification - identify traffic types. Marking - tag packets with priority. Queuing - place packets in different queues. Scheduling - decide which queue to service. Policing - limit bandwidth for traffic. Shaping - smooth traffic to prevent bursts.",
+          
+          "DSCP (Differentiated Services Code Point): 6-bit field in IP header. Values 0-63. Standard markings: EF (Expedited Forwarding, 46) - voice. AF (Assured Forwarding) - multiple classes and drop levels. CS (Class Selector) - backward compatible with old IP Precedence. BE (Best Effort, 0) - default, no priority.",
+          
+          "CoS (Class of Service): 3-bit field in Ethernet 802.1Q tag. Values 0-7. Layer 2 marking (within VLAN). 7 = highest priority (network control). 6 = internetwork control. 5 = voice (RTP). 4 = video. 3 = call signaling. 0 = best effort.",
+          
+          "Trust Boundaries: Where to classify/mark traffic? Trust boundary - where markings are accepted or applied. Option 1: Trust user devices (not recommended - users can cheat). Option 2: Trust IP phones. Option 3: Classify at first switch. Most secure: remark all traffic at network edge.",
+          
+          "Queuing Strategies: FIFO (First In First Out) - simple, no prioritisation. Priority Queuing - high priority always first (can starve low priority). WFQ (Weighted Fair Queuing) - guarantees bandwidth per flow. CBWFQ (Class-Based WFQ) - guarantees bandwidth per class. LLQ (Low Latency Queuing) - priority queue + CBWFQ for other traffic.",
+          
+          "Voice/Video Requirements: Voice needs: < 150ms delay (one-way), < 30ms jitter, < 1% packet loss, ~100 Kbps per call. Video needs: < 200-400ms delay, < 30-50ms jitter, < 1% packet loss, 384 Kbps to several Mbps. Both are real-time - can't retransmit lost packets.",
+          
+          "Bandwidth Reservation: Allocate minimum bandwidth per class. Example: Voice = 30% of bandwidth. Video = 20%. Business-critical apps = 30%. Best effort = 20%. Ensures critical apps never starved. During congestion, guaranteed bandwidth maintained.",
+          
+          "Common QoS Policies: Voice policy - EF/CoS 5, priority queue, police to limit bandwidth. Video policy - AF4x/CoS 4, guaranteed bandwidth. Business apps - AF2x/CoS 2, guaranteed bandwidth. Scavenger (P2P, updates) - CS1, limited bandwidth, dropped first. Best effort - default, gets remaining bandwidth."
+        ],
+        "prevention": [],
+        "relatedCommands": ["show policy-map interface"]
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "fundamentals",
+      "name": "Networking Fundamentals",
+      "description": "Core networking concepts everyone should know"
+    },
+    {
+      "id": "wireless",
+      "name": "WiFi & Wireless",
+      "description": "Wireless networking and troubleshooting"
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Topics",
+      "description": "Complex networking concepts for experienced users"
+    },
+    {
+      "id": "troubleshooting",
+      "name": "Troubleshooting & Support",
+      "description": "Practical troubleshooting guides"
+    }
+  ]
+}
