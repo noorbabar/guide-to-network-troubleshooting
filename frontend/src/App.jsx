@@ -3,8 +3,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
 import TroubleshootWizard from './components/Troubleshoot';
-import CommandReference from './components/CommandReference';
-import KnowledgeBase from './components/KnowledgeBase';
 import './styles/Global.css';
 
 function App() {
@@ -15,8 +13,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/troubleshoot" element={<TroubleshootWizard />} />
-          <Route path="/commands" element={<CommandReference />} />
-          <Route path="/knowledge-base" element={<KnowledgeBase />} />
         </Routes>
         <Footer />
       </div>

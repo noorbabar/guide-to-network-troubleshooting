@@ -6,22 +6,16 @@ function Home() {
     <div className="home">
       <section className="hero">
         <div className="container">
-          <h1>Network Troubleshooting Guide</h1>
+          <h1>Network Support Guide</h1>
             <p className="subtitle">
-            Diagnose and fix common network issues
+            steps to help common Microsoft and network issues
             </p>
             <p style={{ fontSize: '14px', color: '#999', marginBottom: '20px' }}>
-            TCP/IP • DNS • Connectivity • Performance
+            Microsoft 365 • Windows • OneDrive • Network & Connectivity
             </p>
           <div className="hero-buttons">
             <Link to="/troubleshoot" className="btn btn-primary">
               Start troubleshooting
-            </Link>
-            <Link to="/commands" className="btn">
-              Commands
-            </Link>
-            <Link to="/knowledge-base" className="btn">
-              Knowledge base
             </Link>
           </div>
         </div>
